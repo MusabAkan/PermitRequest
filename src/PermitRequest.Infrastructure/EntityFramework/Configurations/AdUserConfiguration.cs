@@ -10,6 +10,22 @@ namespace PermitRequest.Infrastructure.EntityFramework.Configurations
         {
             builder.HasKey(e => e.Id);
 
+            builder.HasMany(c => c.LeaveRequests)
+                .WithOne(c => c.CreatedBy)
+                .HasForeignKey(c => c.CreatedById)
+                .OnDelete(DeleteBehavior.NoAction); ;
+
+            builder.HasMany(c => c.Notifications)
+              .WithOne(c => c.User)
+              .HasForeignKey(c => c.UserId)
+                 .OnDelete(DeleteBehavior.Cascade); 
+
+
+            builder.HasMany(c => c.CumulativeLeaveRequests)
+            .WithOne(c => c.User)
+            .HasForeignKey(c => c.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

@@ -1,4 +1,6 @@
-using PermitRequest.Application;
+using Ardalis.GuardClauses;
+using Microsoft.EntityFrameworkCore;
+using PermitRequest.Infrastructure.EntityFramework;
 using PermitRequest.Infrastructure.EntityFramework.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,10 +12,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddInfrastructure();
+string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+Guard.Against.Null(connectionString);
+object value = builder.Services.AddInfrastructure(connectionString, typeof(Program));
 
+ 
 
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -12,21 +12,18 @@ namespace PermitRequest.Domain.Entities
     public class LeaveRequest : BaseEntity, IAggregateRoot
     {
         public long FormNumber { get; set; }
-        public string RequestNumber
-        {
-            get => $"LRF-{FormNumber:D6}";
-            set => value = RequestNumber;
-        }
+        public string RequestNumber { get; set; }
         public LeaveType LeaveType { get; set; }
         public string? Reason { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public Workflow WorkflowStatus { get; set; }
-        public virtual AdUser AssignedUser { get; set; }
+        //public virtual AdUser? AssignedUser { get; set; }
         public Guid? AssignedUserId { get; set; }
         public virtual AdUser CreatedBy { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedAt { get; set; }
+        //public virtual AdUser? LastModifiedBy { get; set; }
         public Guid? LastModifiedById { get; set; }
         public DateTime? LastModifiedAt { get; set; }
         [NotMapped]
@@ -62,11 +59,11 @@ namespace PermitRequest.Domain.Entities
                 Reason = reason,
                 LeaveType = leaveType,
                 WorkflowStatus = result.Item1,
-                AssignedUserStr =result.Item2,
+                AssignedUserStr = result.Item2,
                 CreatedById = user.Id,
-                
-            };                       
-          
+
+            };
+
 
             leaveRequest.RegisterDomainEvent(new CreateLeaveRequestEvent(leaveRequest));
 

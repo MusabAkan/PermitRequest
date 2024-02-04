@@ -10,5 +10,12 @@ namespace PermitRequest.Infrastructure.EntityFramework.Configurations
         {
             builder.HasKey(e => e.Id);
 
+            builder.Property(e => e.FormNumber)
+             .ValueGeneratedOnAdd();
+
+            builder.Property(lr => lr.RequestNumber)
+           .HasComputedColumnSql("CONCAT('LRF-', FORMAT(FormNumber, 'D6'))");
+
         }
     }
+}
