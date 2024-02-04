@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PermitRequest.Application.Commons;
-using PermitRequest.Application.Dtos;
+using PermitRequest.Application.DTOs;
 
 namespace PermitRequest.WebApi.Controllers
 {

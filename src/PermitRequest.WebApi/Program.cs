@@ -1,11 +1,9 @@
-using Ardalis.GuardClauses;
-using MediatR;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using PermitRequest.Application.Profiles;
 using PermitRequest.Infrastructure.EntityFramework.Contexts;
-using System.Reflection;
+using PermitRequest.Infrastructure.EntityFramework;
+using MediatR;
+using PermitRequest.Domain.Events;
+using PermitRequest.Application.EventHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,15 +15,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
- 
-builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
- 
 
+builder.Services.AddApplication();
+ 
 builder.Services.AddDbContext<PermitRequestContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
-
+ 
 var app = builder.Build();
 
 

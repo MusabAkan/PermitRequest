@@ -5,9 +5,9 @@ namespace PermitRequest.Domain.Specifications
 {
     public class AdUserSpec : Specification<AdUser>
     {
-        public AdUserSpec(string userId)
+        public AdUserSpec(Guid userId)
         {
-            Query.Where(i => i.Id == Guid.Parse(userId));          
+            Query.Where(i => i.Id == userId);          
 
         }
     }

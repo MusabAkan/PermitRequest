@@ -1,5 +1,5 @@
 ﻿using Ardalis.SharedKernel;
-using PermitRequest.Domain.Common.Base;
+using PermitRequest.Domain.Common;
 using PermitRequest.Domain.Concrete.Factories;
 using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Events;
@@ -11,6 +11,7 @@ namespace PermitRequest.Domain.Entities
 
     public class LeaveRequest : BaseEntity, IAggregateRoot
     {
+
         public long FormNumber { get; set; }
         public string RequestNumber { get; set; }
         public LeaveType LeaveType { get; set; }
@@ -29,7 +30,7 @@ namespace PermitRequest.Domain.Entities
         [NotMapped]
         public string AssignedUserStr { get; set; }
 
-        public static LeaveRequest CreateLeaveRequestFactory(AdUser user, DateTime startDate, DateTime endDatetime, LeaveType leaveType, string reason)
+        public static LeaveRequest CreateLeaveRequestFactory(AdUser user, DateTime startDate, DateTime endDate, LeaveType leaveType, string reason)
         {
             static IWorkflowFactory CreateWorkflowFactory(UserType userType, LeaveType leaveType)
             {
@@ -55,17 +56,15 @@ namespace PermitRequest.Domain.Entities
             LeaveRequest leaveRequest = new()
             {
                 StartDate = startDate,
-                EndDate = endDatetime,
+                EndDate = endDate,
                 Reason = reason,
                 LeaveType = leaveType,
                 WorkflowStatus = result.Item1,
                 AssignedUserStr = result.Item2,
-                CreatedById = user.Id,
-
+                CreatedBy = user,
             };
 
-
-            leaveRequest.RegisterDomainEvent(new CreateLeaveRequestEvent(leaveRequest));
+            leaveRequest.RaiseDomainEvent(new CreateLeaveRequestEvent(leaveRequest));          
 
             return leaveRequest;
 

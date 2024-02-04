@@ -1,12 +1,13 @@
 ﻿
 using Ardalis.SharedKernel;
-using PermitRequest.Domain.Common.Base;
+using PermitRequest.Domain.Common;
 
 namespace PermitRequest.Domain.Entities
 {
 
     public class Notification : BaseEntity, IAggregateRoot
     {
+
         public AdUser User { get; set; }
         public Guid UserId { get; set; }
         public string Message { get; set; }

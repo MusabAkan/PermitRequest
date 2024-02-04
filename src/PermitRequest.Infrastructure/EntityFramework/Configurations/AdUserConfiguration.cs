@@ -18,13 +18,13 @@ namespace PermitRequest.Infrastructure.EntityFramework.Configurations
             builder.HasMany(c => c.Notifications)
               .WithOne(c => c.User)
               .HasForeignKey(c => c.UserId)
-                 .OnDelete(DeleteBehavior.Cascade); 
+              .OnDelete(DeleteBehavior.Cascade);
 
 
             builder.HasMany(c => c.CumulativeLeaveRequests)
-            .WithOne(c => c.User)
-            .HasForeignKey(c => c.UserId)
-            .OnDelete(DeleteBehavior.NoAction);
+                .WithOne(c => c.User)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
         }
     }

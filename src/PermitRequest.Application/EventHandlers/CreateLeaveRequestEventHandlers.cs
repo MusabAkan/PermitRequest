@@ -1,16 +1,25 @@
-﻿using MediatR;
+﻿using Ardalis.SharedKernel;
+using MediatR;
+using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Events;
 
 namespace PermitRequest.Application.EventHandlers
 {
     public class CreateLeaveRequestEventHandlers : INotificationHandler<CreateLeaveRequestEvent>
     {
-        public Task Handle(CreateLeaveRequestEvent notification, CancellationToken cancellationToken)
-        {
+        IRepository<AdUser> _userRepository;
 
-            Console.WriteLine("NAber");
-              return Task.CompletedTask;
-              
+        public CreateLeaveRequestEventHandlers(IRepository<AdUser> userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
+        public async Task Handle(CreateLeaveRequestEvent notification, CancellationToken cancellationToken)
+        {
+            var a = notification.LeaveRequest;
+            var result = await _userRepository.ListAsync();
+
+            await Task.CompletedTask;
         }
     }
 }
