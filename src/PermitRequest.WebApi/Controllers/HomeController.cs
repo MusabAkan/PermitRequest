@@ -13,6 +13,7 @@ namespace PermitRequest.WebApi.Controllers
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
+
         public HomeController(IMapper mapper, IMediator mediator)
         {
             _mapper = mapper;
@@ -21,7 +22,7 @@ namespace PermitRequest.WebApi.Controllers
 
         [HttpPost]
         [Route($"api/{nameof(CreateRequestRecord)}")]
-        public async Task<ActionResult> CreateRequestRecord(RequestRecordDto request)
+        public async Task<ActionResult> CreateRequestRecord([FromBody] RequestRecordDto request)
         {
 
             var command = _mapper.Map<CreateRequestRecordCommand>(request);

@@ -1,7 +1,11 @@
 using Ardalis.GuardClauses;
+using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using PermitRequest.Infrastructure.EntityFramework;
+using Microsoft.Extensions.Configuration;
+using PermitRequest.Application.Profiles;
 using PermitRequest.Infrastructure.EntityFramework.Contexts;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +16,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-Guard.Against.Null(connectionString);
-object value = builder.Services.AddInfrastructure(connectionString, typeof(Program));
 
  
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+ 
+
+builder.Services.AddDbContext<PermitRequestContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
 var app = builder.Build();
 
@@ -29,11 +37,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-DataSeeding.Seed(app);
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
+DataSeeding.Seed(app);
 app.Run();
