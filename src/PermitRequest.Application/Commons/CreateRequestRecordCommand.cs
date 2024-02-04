@@ -7,7 +7,7 @@ using PermitRequest.Domain.Specifications;
 namespace PermitRequest.Application.Commons
 {
 
-    public record CreateRequestRecordCommand(string UserId, DateTime StartTime, DateTime EndTime, LeaveType LeaveType, string reason) : ICommand<Result<bool>>;
+    public record CreateRequestRecordCommand(string UserId, DateTime StartDate, DateTime EndDate, LeaveType LeaveType, string Reason) : ICommand<Result<bool>>;
 
     public class CreateRequestRecordCommandHandler(IRepository<AdUser> repository) : ICommandHandler<CreateRequestRecordCommand, Result<bool>>
     {
@@ -18,7 +18,7 @@ namespace PermitRequest.Application.Commons
             if (exists == null)
                 throw new Exception("User kullanıcı bulunamadı");
 
-            LeaveRequest.CreateRequestRecord(exists, request.StartTime, request.EndTime, request.LeaveType, request.reason);
+          var leaveRequst =  LeaveRequest.CreateLeaveRequestFactory(exists, request.StartDate, request.EndDate, request.LeaveType, request.Reason);
 
            return Result.Success(true, "Ekleme işlemi tamamlandı.");
         }

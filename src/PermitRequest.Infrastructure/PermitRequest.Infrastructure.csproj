@@ -21,8 +21,4 @@
     <ProjectReference Include="..\PermitRequest.Domain\PermitRequest.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="EntityFramework\Mappings\" />
-  </ItemGroup>
-
 </Project>

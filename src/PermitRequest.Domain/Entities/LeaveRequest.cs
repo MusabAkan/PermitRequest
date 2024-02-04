@@ -17,8 +17,6 @@ namespace PermitRequest.Domain.Entities
             get => $"LRF-{FormNumber:D6}";
             set => value = RequestNumber;
         }
-
-
         public LeaveType LeaveType { get; set; }
         public string? Reason { get; set; }
         public DateTime StartDate { get; set; }
@@ -34,7 +32,7 @@ namespace PermitRequest.Domain.Entities
         [NotMapped]
         public string AssignedUserStr { get; set; }
 
-        public static void CreateRequestFactory(AdUser user, DateTime startDate, DateTime endDatetime, LeaveType leaveType, string reason)
+        public static LeaveRequest CreateLeaveRequestFactory(AdUser user, DateTime startDate, DateTime endDatetime, LeaveType leaveType, string reason)
         {
             static IWorkflowFactory CreateWorkflowFactory(UserType userType, LeaveType leaveType)
             {
@@ -67,14 +65,12 @@ namespace PermitRequest.Domain.Entities
                 AssignedUserStr =result.Item2,
                 CreatedById = user.Id,
                 
-            };
-
-          
-                
-
+            };                       
           
 
-            leaveRequest.RegisterDomainEvent(new CreateRequestRecordEvent(leaveRequest));
+            leaveRequest.RegisterDomainEvent(new CreateLeaveRequestEvent(leaveRequest));
+
+            return leaveRequest;
 
         }
 
