@@ -3,7 +3,7 @@
     public class NotificationDto
     {
         public string FullName { get; set; }
-        public string Year { get; set; }
+        public int Year { get; set; }
         public string CreateDate { get; set; }
         public string Message { get; set; }       
     };

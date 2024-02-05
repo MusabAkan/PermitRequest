@@ -57,7 +57,7 @@ namespace PermitRequest.Application.Features.Commands
 
             await leaveRequestRepository.AddAsync(leaveRequest, cancellationToken);
 
-            return Result.Success(true, "İşlem  tamamlandı");
+            return Result.Success(true, "Tüm işlemler tamamlanmıştır.");
 
         }
         //private Guid? ManagerOfManagerCase(Guid userId)

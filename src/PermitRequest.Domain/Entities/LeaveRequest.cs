@@ -53,7 +53,7 @@ namespace PermitRequest.Domain.Entities
             }
             var result = CreateWorkflowFactory(user.UserType, leaveType).CreateWorkflow();
 
-            LeaveRequest leaveRequest = new()
+            LeaveRequest entity = new()
             {
                 StartDate = startDate,
                 EndDate = endDate,
@@ -64,9 +64,9 @@ namespace PermitRequest.Domain.Entities
                 CreatedBy = user,
             };
 
-            leaveRequest.RaiseDomainEvent(new CreateCumulativeEvent(leaveRequest));          
+            entity.RaiseDomainEvent(new CreateCumulativeEvent(entity));          
 
-            return leaveRequest;
+            return entity;
 
         }
 

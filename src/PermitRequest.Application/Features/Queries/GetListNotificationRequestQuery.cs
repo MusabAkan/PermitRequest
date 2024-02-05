@@ -2,8 +2,6 @@
 using Ardalis.SharedKernel;
 using AutoMapper;
 using PermissionRequestApp.Application.Common.Dtos;
-using PermitRequest.Application.DTOs;
-using PermitRequest.Application.Extensions;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Specifications;
 

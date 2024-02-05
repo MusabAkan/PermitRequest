@@ -28,11 +28,28 @@ namespace PermitRequest.Infrastructure.EntityFramework.Contexts
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
+            await SetLeaveRequestTimes();
             var result = await base.SaveChangesAsync(cancellationToken);
             await PublishDomainEventsAsync();       
             return result;
         }
+        async Task SetLeaveRequestTimes()
+        {
+            var entries = ChangeTracker.Entries();
 
+            foreach (var entry in entries)
+            {
+                if (entry.Entity is LeaveRequest entity)
+                {
+                    var dateTime = DateTime.Now;
+
+                    if (entry.State == EntityState.Added)
+                        entity.CreatedAt = dateTime;
+                    else
+                        entity.LastModifiedAt = dateTime;
+                }
+            }
+        }
         async Task PublishDomainEventsAsync()
         {
             var domainEntities = ChangeTracker.Entries<BaseEntity>()

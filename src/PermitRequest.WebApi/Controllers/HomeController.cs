@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PermitRequest.Application.DTOs;
@@ -48,7 +47,6 @@ namespace PermitRequest.WebApi.Controllers
             var result = await _mediator.Send(command);
             return Ok(result);
         }
-
 
         [HttpPost]
         [Route($"api/{nameof(GetListCumulativeLeaveRequest)}")]

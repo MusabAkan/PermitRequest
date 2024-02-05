@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using PermissionRequestApp.Application.Common.Dtos;
 using PermitRequest.Application.DTOs;
-using PermitRequest.Application.Extensions;
 using PermitRequest.Application.Features.Commands;
 using PermitRequest.Application.Features.Queries;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
+using PermitRequest.Domain.Extensions;
 
 namespace PermitRequest.Application.Profiles
 {
@@ -40,7 +40,7 @@ namespace PermitRequest.Application.Profiles
 
             CreateMap<Notification, NotificationDto>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
-                .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.CreateDate.DateTimeYearToString()))
+                .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.CreateDate.Year))
                 .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src.Message));
                 
 
@@ -54,24 +54,6 @@ namespace PermitRequest.Application.Profiles
               .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate.DateTimeToString()))
               .ForMember(dest => dest.TotalHour, opt => opt.MapFrom(src => src.TotalWorkHourCalculate(src.StartDate, src.EndDate)))
               .ForMember(dest => dest.Workflow, opt => opt.MapFrom(src => src.WorkflowStatus.ToString()));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
     }
 }

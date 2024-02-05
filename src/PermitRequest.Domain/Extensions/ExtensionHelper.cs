@@ -1,10 +1,9 @@
-﻿namespace PermitRequest.Application.Extensions
+﻿namespace PermitRequest.Domain.Extensions
 {
     public static class ExtensionHelper
     {
         public static string DateTimeToString(this DateTime dateTime) => dateTime.ToString("dd.MM.yyyy HH:mm");
-        public static string DateTimeYearToString(this DateTime dateTime) => dateTime.Year.ToString();
-        public static int TotalWorkHourCalculate(this object @object, DateTime startDate, DateTime endDate)
+        public static int TotalWorkHourCalculate(this object _, DateTime startDate, DateTime endDate)
         {
             int totalWorkHours = 0;
             const int work = 8;

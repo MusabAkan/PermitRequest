@@ -20,11 +20,12 @@ namespace PermitRequest.Infrastructure.EntityFramework
         {
             services.AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
 
+            services.AddAutoMapper(typeof(AutoMapperProfile));
+
             services.AddScoped<IRepository<AdUser>, EfRepository<AdUser>>();
             services.AddScoped<IRepository<LeaveRequest>, EfRepository<LeaveRequest>>();
             services.AddScoped<IRepository<CumulativeLeaveRequest>, EfRepository<CumulativeLeaveRequest>>();
             services.AddScoped<IRepository<Notification>, EfRepository<Notification>>();
-
 
             services.AddTransient<IRequestHandler<CreateRequestRecordCommand, Result<bool>>, CreateRequestRecordCommandHandler>();
 
@@ -33,10 +34,8 @@ namespace PermitRequest.Infrastructure.EntityFramework
             services.AddTransient<IRequestHandler<GetListCumulativeLeaveRequestQuery, Result<IEnumerable<CumulativeLeaveRequestDto>>>, GetListCumulativeLeaveRequestQueryHandler>();
             services.AddTransient<IRequestHandler<GetListNotificationRequestQuery, Result<IEnumerable<NotificationDto>>>, GetListNotificationRequestQueryHandler>();
 
-
             services.AddTransient<INotificationHandler<CreateCumulativeEvent>, CreateCumulativeEventHandler>();
-
-            services.AddAutoMapper(typeof(AutoMapperProfile));
+            services.AddTransient<INotificationHandler<CreateNotificationEvent>, CreateNotificationEventHandler>();
 
             return services;
         }

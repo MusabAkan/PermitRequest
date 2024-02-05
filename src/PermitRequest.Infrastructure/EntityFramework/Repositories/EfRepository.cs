@@ -6,8 +6,6 @@ namespace PermitRequest.Infrastructure.EntityFramework.Repositories
 {
     public class EfRepository<T> : RepositoryBase<T>, IReadRepository<T>, IRepository<T> where T : class, IAggregateRoot
     {
-        public EfRepository(PermitRequestContext dbContext) : base(dbContext)
-        {
-        }
+        public EfRepository(PermitRequestContext dbContext) : base(dbContext) { }
     }
 }
