@@ -1,12 +1,10 @@
-﻿using Ardalis.SharedKernel;
-using PermitRequest.Domain.Common;
+﻿using PermitRequest.Domain.Commons;
 using PermitRequest.Domain.Entities;
 
 namespace PermitRequest.Domain.Events
 {
-    public class CreateLeaveRequestEvent(LeaveRequest leaveRequest) : DomainEvent
+    public class CreateCumulativeEvent(LeaveRequest leaveRequest) : DomainEvent
     {
-
         public LeaveRequest LeaveRequest = leaveRequest;
     }
 

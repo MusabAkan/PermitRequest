@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace PermitRequest.Domain.Common
+namespace PermitRequest.Domain.Commons
 {
     public class DomainEvent : INotification;
 }

@@ -1,6 +1,6 @@
 ﻿
 using Ardalis.SharedKernel;
-using PermitRequest.Domain.Common;
+using PermitRequest.Domain.Commons;
 
 namespace PermitRequest.Domain.Entities
 {

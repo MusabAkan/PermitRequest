@@ -2,8 +2,10 @@
 using Ardalis.SharedKernel;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using PermitRequest.Application.Commons;
-using PermitRequest.Application.EventHandlers;
+using PermitRequest.Application.DTOs;
+using PermitRequest.Application.Features.Commands;
+using PermitRequest.Application.Features.EventHandlers;
+using PermitRequest.Application.Features.Queries;
 using PermitRequest.Application.Profiles;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Events;
@@ -19,10 +21,22 @@ namespace PermitRequest.Infrastructure.EntityFramework
 
             services.AddScoped<IRepository<AdUser>, EfRepository<AdUser>>();
             services.AddScoped<IRepository<LeaveRequest>, EfRepository<LeaveRequest>>();
-            
+            services.AddScoped<IRepository<CumulativeLeaveRequest>, EfRepository<CumulativeLeaveRequest>>();
+            services.AddScoped<IRepository<Notification>, EfRepository<Notification>>();
+
+
             services.AddTransient<IRequestHandler<CreateRequestRecordCommand, Result<bool>>, CreateRequestRecordCommandHandler>();
 
-            services.AddTransient<INotificationHandler<CreateLeaveRequestEvent>, CreateLeaveRequestEventHandlers>();
+            services.AddTransient<IRequestHandler<GetListLeaveRequestQuery, Result<IEnumerable<LeaveRequestDto>>>, GetListLeaveRequestQueryHandler>();
+            
+
+            services.AddTransient<IRequestHandler<GetByIdLeaveRequestQuery, Result<IEnumerable<LeaveRequestDto>>>, GetByIdLeaveRequestQueryHandler>();
+
+
+
+
+
+            services.AddTransient<INotificationHandler<CreateCumulativeEvent>, CreateCumulativeEventHandler>();
 
             services.AddAutoMapper(typeof(AutoMapperProfile));
 

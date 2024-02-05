@@ -1,9 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PermitRequest.Infrastructure.EntityFramework.Contexts;
 using PermitRequest.Infrastructure.EntityFramework;
-using MediatR;
-using PermitRequest.Domain.Events;
-using PermitRequest.Application.EventHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 

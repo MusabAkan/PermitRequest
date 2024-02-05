@@ -1,10 +1,10 @@
 ﻿using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Interfaces;
 
-namespace PermitRequest.Domain.Concrete.Factories
+namespace PermitRequest.Domain.Factories
 {
     public class ManagerWorkflowFactory : IWorkflowFactory
     {
-        (Workflow, string) IWorkflowFactory.CreateWorkflow() => (Workflow.None, "Empty");
+        (Workflow, string) IWorkflowFactory.CreateWorkflow() => (Workflow.None, "NotManagerCase");
     }
 }

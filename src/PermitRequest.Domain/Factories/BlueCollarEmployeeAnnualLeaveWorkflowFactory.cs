@@ -1,11 +1,11 @@
 ﻿using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Interfaces;
 
-namespace PermitRequest.Domain.Concrete.Factories
+namespace PermitRequest.Domain.Factories
 {
     public class BlueCollarEmployeeAnnualLeaveWorkflowFactory : IWorkflowFactory
     {
-        (Workflow, string) IWorkflowFactory.CreateWorkflow() => (Workflow.Pending, "ManagerOfManager");
+        (Workflow, string) IWorkflowFactory.CreateWorkflow() => (Workflow.Pending, "ManagerOfManagerCase");
     }
 }
 
