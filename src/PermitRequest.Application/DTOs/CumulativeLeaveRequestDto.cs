@@ -1,4 +1,10 @@
 ﻿namespace PermitRequest.Application.DTOs
 {
-    public record CumulativeLeaveRequestDto(string FullName, string LeaveType, string Year, string TotalHour);
+    public class CumulativeLeaveRequestDto
+    {
+        public string FullName { get; set; }
+        public string LeaveType { get; set; }
+        public string Year { get; set; }
+        public string TotalHour { get; set; }      
+    }
 }

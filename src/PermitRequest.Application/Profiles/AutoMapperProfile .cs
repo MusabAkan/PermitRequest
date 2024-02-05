@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PermissionRequestApp.Application.Common.Dtos;
 using PermitRequest.Application.DTOs;
 using PermitRequest.Application.Extensions;
 using PermitRequest.Application.Features.Commands;
@@ -28,16 +29,45 @@ namespace PermitRequest.Application.Profiles
             CreateMap<GetByIdDto, GetByIdLeaveRequestQuery>()
                 .ConstructUsing(src => new GetByIdLeaveRequestQuery(src.skip, src.take, src.userId));
 
-            CreateMap<List<LeaveRequest>, List<LeaveRequestDto>>()
-              .ConstructUsing(src => (List<LeaveRequestDto>)src.Select(i => new LeaveRequestDto(
-                    i.RequestNumber,
-                    i.CreatedBy.FullName,
-                    i.LeaveType.ToString(),
-                    i.CreatedAt.DateTimeToString(),
-                    i.StartDate.DateTimeToString(),
-                    i.EndDate.DateTimeToString(),
-                    i.TotalWorkHourCalculate(i.StartDate, i.EndDate),
-                    i.WorkflowStatus.ToString())));
+
+            CreateMap<CumulativeLeaveRequest, CumulativeLeaveRequestDto>()
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
+                .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Year))
+                .ForMember(dest => dest.LeaveType, opt => opt.MapFrom(src => src.LeaveTypeId))
+                .ForMember(dest => dest.TotalHour, opt => opt.MapFrom(src => src.TotalHours));
+
+
+
+            CreateMap<Notification, NotificationDto>()
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
+                .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.CreateDate.DateTimeYearToString()))
+                .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src.Message));
+                
+
+
+            CreateMap<LeaveRequest, LeaveRequestDto>()
+              .ForMember(dest => dest.ReqFormNumber, opt => opt.MapFrom(src => src.RequestNumber))
+              .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.CreatedBy.FullName))
+              .ForMember(dest => dest.LeaveType, opt => opt.MapFrom(src => src.LeaveType.ToString()))
+              .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreatedAt.DateTimeToString()))
+              .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate.DateTimeToString()))
+              .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate.DateTimeToString()))
+              .ForMember(dest => dest.TotalHour, opt => opt.MapFrom(src => src.TotalWorkHourCalculate(src.StartDate, src.EndDate)))
+              .ForMember(dest => dest.Workflow, opt => opt.MapFrom(src => src.WorkflowStatus.ToString()));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

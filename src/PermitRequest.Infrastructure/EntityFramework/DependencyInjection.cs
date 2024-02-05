@@ -2,6 +2,7 @@
 using Ardalis.SharedKernel;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using PermissionRequestApp.Application.Common.Dtos;
 using PermitRequest.Application.DTOs;
 using PermitRequest.Application.Features.Commands;
 using PermitRequest.Application.Features.EventHandlers;
@@ -28,12 +29,9 @@ namespace PermitRequest.Infrastructure.EntityFramework
             services.AddTransient<IRequestHandler<CreateRequestRecordCommand, Result<bool>>, CreateRequestRecordCommandHandler>();
 
             services.AddTransient<IRequestHandler<GetListLeaveRequestQuery, Result<IEnumerable<LeaveRequestDto>>>, GetListLeaveRequestQueryHandler>();
-            
-
             services.AddTransient<IRequestHandler<GetByIdLeaveRequestQuery, Result<IEnumerable<LeaveRequestDto>>>, GetByIdLeaveRequestQueryHandler>();
-
-
-
+            services.AddTransient<IRequestHandler<GetListCumulativeLeaveRequestQuery, Result<IEnumerable<CumulativeLeaveRequestDto>>>, GetListCumulativeLeaveRequestQueryHandler>();
+            services.AddTransient<IRequestHandler<GetListNotificationRequestQuery, Result<IEnumerable<NotificationDto>>>, GetListNotificationRequestQueryHandler>();
 
 
             services.AddTransient<INotificationHandler<CreateCumulativeEvent>, CreateCumulativeEventHandler>();

@@ -1,4 +1,14 @@
 ﻿namespace PermitRequest.Application.DTOs
 {
-    public record LeaveRequestDto(string ReqFormNumber, string FullName, string LeaveType, string CreateDate, string StartDate, string EndData, int TotalHour, string Workflow);
+    public class LeaveRequestDto
+    {
+        public string ReqFormNumber { get; set; }
+        public string FullName { get; set; }
+        public string LeaveType { get; set; }
+        public string CreateDate { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public int TotalHour { get; set; }
+        public string Workflow { get; set; }
+    };
 }

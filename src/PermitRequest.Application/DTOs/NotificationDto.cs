@@ -1,4 +1,10 @@
 ﻿namespace PermissionRequestApp.Application.Common.Dtos
 {
-    public record NotificationDto(string FullName, string Yıl, string CreateDate, string Message);
+    public class NotificationDto
+    {
+        public string FullName { get; set; }
+        public string Year { get; set; }
+        public string CreateDate { get; set; }
+        public string Message { get; set; }       
+    };
 }

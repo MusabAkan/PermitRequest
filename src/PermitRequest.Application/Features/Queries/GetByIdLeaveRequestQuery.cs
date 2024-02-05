@@ -2,7 +2,6 @@
 using Ardalis.SharedKernel;
 using AutoMapper;
 using PermitRequest.Application.DTOs;
-using PermitRequest.Application.Extensions;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Specifications;
 
@@ -18,19 +17,16 @@ namespace PermitRequest.Application.Features.Queries
 
             var filterSpec = new LeaveRequestFilterPaginatedSpec(request.skip, request.take, request.userid);
 
-           var data = await _repository.ListAsync(filterSpec);
+            var data = await _repository.ListAsync(filterSpec);
 
-            if (data == null)
+            if (data == null || data.Count == 0)
                 return Result.Error("Veri yok!!");
 
-            _mapper.Map<LeaveRequestDto>(data);
+            var leaveRequests = _mapper.Map<List<LeaveRequestDto>>(data);
 
-            List<LeaveRequestDto> leaves = new();
-            
-            return leaves;
+            return leaveRequests;
         }
 
     }
 
 }
- 
