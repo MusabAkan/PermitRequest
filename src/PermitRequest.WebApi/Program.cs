@@ -11,8 +11,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-
 builder.Services.AddApplication();
  
 builder.Services.AddDbContext<PermitRequestContext>(options =>
@@ -20,8 +18,6 @@ builder.Services.AddDbContext<PermitRequestContext>(options =>
 );
  
 var app = builder.Build();
-
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -2,6 +2,7 @@
 using Ardalis.SharedKernel;
 using AutoMapper;
 using PermissionRequestApp.Application.Common.Dtos;
+using PermitRequest.Application.Constants;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Specifications;
 
@@ -19,10 +20,10 @@ namespace PermitRequest.Application.Features.Queries
             var data = await _repository.ListAsync(filterSpec);
 
             if (data == null || data.Count == 0)
-                return Result.Error("Veri yok!!");
+                return Result.Error(Message.NoData);
 
             var notifications = _mapper.Map<List<NotificationDto>>(data);
-            return notifications;
+            return  notifications;
         }
     }
 }

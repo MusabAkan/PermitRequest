@@ -1,15 +1,16 @@
 ﻿using Ardalis.Result;
 using Ardalis.SharedKernel;
 using MediatR;
+using PermitRequest.Application.Constants;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Specifications;
 namespace PermitRequest.Application.Features.Commands
 {
 
-    public record CreateRequestRecordCommand(string UserId, DateTime StartDate, DateTime EndDate, LeaveType LeaveType, string Reason) : IRequest<Result<bool>>;
+    public record CreateRequestRecordCommand(string UserId, DateTime StartDate, DateTime EndDate, LeaveType LeaveType, string Reason) : IRequest<Result<Guid>>;
 
-    public class CreateRequestRecordCommandHandler : IRequestHandler<CreateRequestRecordCommand, Result<bool>>
+    public class CreateRequestRecordCommandHandler : IRequestHandler<CreateRequestRecordCommand, Result<Guid>>
     {
         private readonly IRepository<AdUser> adUserRepository;
         private readonly IRepository<LeaveRequest> leaveRequestRepository;
@@ -20,19 +21,19 @@ namespace PermitRequest.Application.Features.Commands
             this.leaveRequestRepository = leaveRequestRepository;
         }
 
-        public async Task<Result<bool>> Handle(CreateRequestRecordCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> Handle(CreateRequestRecordCommand request, CancellationToken cancellationToken)
         {
 
             if (!Guid.TryParse(request.UserId, out Guid userId))
-                return Result.Error("Kullanıcı Id'si Guid Tipinde olmalıdır");
+                return Result.Error(Message.GuidTypId);
 
             if (request.StartDate.Date >= request.EndDate.Date)
-                return Result.Error("Başlangıç tarih bitiş tarihden büyük yada eşit olmamalıdır..");
+                return Result.Error(Message.DateError);
 
             var exists = await adUserRepository.FirstOrDefaultAsync(new AdUserSpec(userId), cancellationToken);
 
             if (exists is null)
-                return Result.Error("Sistemde kullanıcı bulunamadı");
+                return Result.Error(Message.NotFoundUser);
 
 
             var leaveRequest = LeaveRequest.CreateLeaveRequestFactory(exists, request.StartDate, request.EndDate, request.LeaveType, request.Reason);
@@ -57,7 +58,7 @@ namespace PermitRequest.Application.Features.Commands
 
             await leaveRequestRepository.AddAsync(leaveRequest, cancellationToken);
 
-            return Result.Success(true, "Tüm işlemler tamamlanmıştır.");
+            return Result.Success(leaveRequest.Id, Message.AllCompleted);
 
         }
         //private Guid? ManagerOfManagerCase(Guid userId)

@@ -1,5 +1,6 @@
 ﻿using Ardalis.SharedKernel;
 using MediatR;
+using PermitRequest.Application.Constants;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Events;
@@ -39,7 +40,7 @@ namespace PermitRequest.Application.Features.EventHandlers
                     // %10 fazla izin alındığında exception fırlat ve bildirim gönder
                     if (totalDayCurrrent > 14 * 1.10)
                     {
-                        entity.Message = "AnnualLeave izin süresi aşıldı.";
+                        entity.Message = string.Format(Message.PermissionPeriod, LeaveType.AnnualLeave.ToString());
                         await _notificationRepository.AddAsync(entity);
                         return;
                     }
@@ -53,7 +54,7 @@ namespace PermitRequest.Application.Features.EventHandlers
                     // %20 fazla izin alındığında exception fırlat ve bildirim gönder
                     if (totalDayCurrrent > 5 * 1.20)
                     {
-                        entity.Message = "ExcusedAbsence izin süresi aşıldı.";
+                        entity.Message = string.Format(Message.PermissionPeriod, LeaveType.ExcusedAbsence.ToString());
                         await _notificationRepository.AddAsync(entity);
                         return;
                     }
