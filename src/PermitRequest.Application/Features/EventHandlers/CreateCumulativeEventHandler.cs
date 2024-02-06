@@ -1,23 +1,23 @@
-﻿using Ardalis.SharedKernel;
-using MediatR;
-using PermitRequest.Domain.Entities;
-using PermitRequest.Domain.Events;
-using PermitRequest.Domain.Specifications;
+﻿using MediatR;
+using PermitRequest.Application.Features.Events;
+using PermitRequest.Application.Features.Factories;
+using PermitRequest.Application.Specifications;
+using PermitRequest.Infrastructure.EntityFramework.Services;
 
 namespace PermitRequest.Application.Features.EventHandlers
 {
     public class CreateCumulativeEventHandler : INotificationHandler<CreateCumulativeEvent>
     {
       
-        private readonly IRepository<CumulativeLeaveRequest> _repository;
+        private readonly ICumulativeLeaveRequestRepository _repository;
 
-        public CreateCumulativeEventHandler(IRepository<CumulativeLeaveRequest> repository)
+        public CreateCumulativeEventHandler(ICumulativeLeaveRequestRepository repository)
         {
             _repository = repository;
         }
 
         public async Task Handle(CreateCumulativeEvent notification, CancellationToken cancellationToken)
-        {          
+        {         
                       
             var userId = notification.LeaveRequest.CreatedById;
             var levaeType = notification.LeaveRequest.LeaveType;
@@ -26,7 +26,7 @@ namespace PermitRequest.Application.Features.EventHandlers
 
             var exists = await _repository.FirstOrDefaultAsync(new CumulativeLeaveSpec(userId, levaeType, year));
  
-            var entity = CumulativeLeaveRequest.CreateCumulativeLeaveRequestFactory(exists, userId, levaeType, total, year);       
+            var entity = CumulativeLeaveRequestFactory.CreateCumulativeLeaveRequest(exists, userId, levaeType, total, year);       
 
             if (exists is not null)
                 await _repository.UpdateAsync(entity);

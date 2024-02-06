@@ -1,19 +1,20 @@
-﻿using Ardalis.SharedKernel;
-using MediatR;
-using PermitRequest.Domain.Entities;
+﻿using MediatR;
+using PermitRequest.Application.Features.Events;
+using PermitRequest.Application.Features.Factories;
+using PermitRequest.Application.Specifications;
 using PermitRequest.Domain.Enums;
-using PermitRequest.Domain.Events;
 using PermitRequest.Domain.Extensions;
-using PermitRequest.Domain.Specifications;
+using PermitRequest.Infrastructure.EntityFramework.Services;
+
 
 namespace PermitRequest.Application.Features.EventHandlers
 {
     public class CreateNotificationEventHandler : INotificationHandler<CreateNotificationEvent>
     {
-        private readonly IRepository<CumulativeLeaveRequest> _repositoryCumulative;
-        private readonly IRepository<Notification> _notificationRepository;
+        private readonly ICumulativeLeaveRequestRepository _repositoryCumulative;
+        private readonly INotificationRepository _notificationRepository;
 
-        public CreateNotificationEventHandler(IRepository<CumulativeLeaveRequest> repositoryCumulative, IRepository<Notification> notificationRepository)
+        public CreateNotificationEventHandler(ICumulativeLeaveRequestRepository repositoryCumulative, INotificationRepository notificationRepository)
         {
             _repositoryCumulative = repositoryCumulative;
             _notificationRepository = notificationRepository;
@@ -30,7 +31,10 @@ namespace PermitRequest.Application.Features.EventHandlers
 
             if (existsEntity != null)
             {
-                var entity = Notification.CreateNotificationRequestFactory(existsEntity.Id, existsEntity.UserId);
+
+                var leaveRequests = existsEntity.User.LeaveRequests;
+
+                var entity = NotificationRequestFactory.CreateNotificationRequest(existsEntity.Id, existsEntity.UserId);
 
                 var totalDayCurrrent = ((int)existsEntity.TotalHours / 8);
 
@@ -42,6 +46,7 @@ namespace PermitRequest.Application.Features.EventHandlers
                     {
                         entity.Message = "AnnualLeave izin süresi aşıldı.";
                         await _notificationRepository.AddAsync(entity);
+                        
                         return;
                     }
 

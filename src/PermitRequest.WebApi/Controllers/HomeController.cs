@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PermitRequest.Application.DTOs;
 using PermitRequest.Application.Features.Commands;
 using PermitRequest.Application.Features.Queries;
+using PermitRequest.Domain.DTOs;
 
 namespace PermitRequest.WebApi.Controllers
 {

@@ -1,7 +1,6 @@
 ﻿
 using Ardalis.SharedKernel;
-using PermitRequest.Domain.Commons;
-using PermitRequest.Domain.Enums;
+using PermitRequest.Core.Commons;
 
 namespace PermitRequest.Domain.Entities
 {
@@ -19,18 +18,6 @@ namespace PermitRequest.Domain.Entities
         /****************   Ingore  *****************/
         public string CreateDateStr => CreateDate.ToString("dd.MM.yyyy HH:ss");
         public int Year => CreateDate.Year;
-        /****************   Ingore  *****************/
-
-        public static Notification CreateNotificationRequestFactory(Guid cumulativeLeaveRequestId, Guid userId)
-        {
-            Notification entity = new()
-            {
-                CreateDate = DateTime.Now,
-                CumulativeLeaveRequestId = cumulativeLeaveRequestId,
-                UserId = userId,                
-            };
-
-            return entity;
-        }
+        /****************   Ingore  *****************/       
     }
 }

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PermitRequest.Domain\PermitRequest.Domain.csproj" />
+    <ProjectReference Include="..\PermitRequest.Infrastructure\PermitRequest.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

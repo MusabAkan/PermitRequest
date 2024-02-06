@@ -1,15 +1,15 @@
 ﻿using Ardalis.Result;
 using Ardalis.SharedKernel;
 using AutoMapper;
-using PermitRequest.Application.DTOs;
-using PermitRequest.Domain.Entities;
+using PermitRequest.Application.Specifications;
+using PermitRequest.Domain.DTOs;
 using PermitRequest.Domain.Extensions;
-using PermitRequest.Domain.Specifications;
+using PermitRequest.Infrastructure.EntityFramework.Services;
 
 namespace PermitRequest.Application.Features.Queries
 {
     public record GetListLeaveRequestQuery(int skip, int take) : IQuery<Result<IEnumerable<LeaveRequestDto>>>;
-    public class GetListLeaveRequestQueryHandler(IRepository<LeaveRequest> _repository, IMapper _mapper) : IQueryHandler<GetListLeaveRequestQuery, Result<IEnumerable<LeaveRequestDto>>>
+    public class GetListLeaveRequestQueryHandler(ILeaveRequestRepository _repository, IMapper _mapper) : IQueryHandler<GetListLeaveRequestQuery, Result<IEnumerable<LeaveRequestDto>>>
     {
         public async Task<Result<IEnumerable<LeaveRequestDto>>> Handle(GetListLeaveRequestQuery request, CancellationToken cancellationToken)
         {

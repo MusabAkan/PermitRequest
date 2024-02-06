@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ardalis.Result" Version="7.2.0" />
-    <PackageReference Include="Ardalis.SharedKernel" Version="1.4.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <ProjectReference Include="..\PermitRequest.Core\PermitRequest.Core.csproj" />
   </ItemGroup>
 
 </Project>

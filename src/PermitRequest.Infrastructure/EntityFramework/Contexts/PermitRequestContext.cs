@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PermitRequest.Domain.Commons;
+using PermitRequest.Core.Commons;
 using PermitRequest.Domain.Entities;
 using System.Reflection;
 
@@ -17,23 +17,22 @@ namespace PermitRequest.Infrastructure.EntityFramework.Contexts
 
         public DbSet<AdUser> AdUsers { get; set; }
         public DbSet<CumulativeLeaveRequest> CumulativeLeaveRequests { get; set; }
-        public DbSet<LeaveRequest> LeaveRequest { get; set; }
-        public DbSet<Notification> Notification { get; set; }
-
+        public DbSet<LeaveRequest> LeaveRequests { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }
-
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            await SetLeaveRequestTimes();
+            SetLeaveRequestTimes();
             var result = await base.SaveChangesAsync(cancellationToken);
             await PublishDomainEventsAsync();       
             return result;
         }
-        async Task SetLeaveRequestTimes()
+        void SetLeaveRequestTimes()
         {
             var entries = ChangeTracker.Entries();
 

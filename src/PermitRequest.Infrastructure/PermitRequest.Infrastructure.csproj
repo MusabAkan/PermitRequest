@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PermitRequest.Application\PermitRequest.Application.csproj" />
     <ProjectReference Include="..\PermitRequest.Domain\PermitRequest.Domain.csproj" />
   </ItemGroup>
 
