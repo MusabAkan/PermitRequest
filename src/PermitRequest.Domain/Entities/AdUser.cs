@@ -10,15 +10,15 @@ namespace PermitRequest.Domain.Entities
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Email { get; set; }
-        [NotMapped]
-        public string FullName { get { return FirstName + " " + LastName; } }
+        public string Email { get; set; }   
         public UserType UserType { get; set; }
         public Guid? ManagerId { get; set; }
         public IEnumerable<LeaveRequest> LeaveRequests { get; set; }
         public IEnumerable<Notification> Notifications { get; set; }
         public IEnumerable<CumulativeLeaveRequest> CumulativeLeaveRequests { get; set; }
-
+        /****************   Ingore  *****************/
+        public string FullName { get { return FirstName + " " + LastName; } }
+        /****************   Ingore  *****************/
 
     }
 }

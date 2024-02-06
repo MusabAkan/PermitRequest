@@ -16,19 +16,18 @@ namespace PermitRequest.Domain.Entities
         public int TotalHours { get; set; }
         public int Year { get; set; }
         public IEnumerable<Notification> Notifications { get; set; }
+        
 
-        public static CumulativeLeaveRequest CreateCumulativeLeaveRequestFactory(CumulativeLeaveRequest? oldtEntity, Guid userId, LeaveType LeaveTypeId, DateTime startDate, DateTime endDate)
+        public static CumulativeLeaveRequest CreateCumulativeLeaveRequestFactory(CumulativeLeaveRequest? oldtEntity, Guid userId, LeaveType LeaveTypeId, int total, int year)
         {
-            CumulativeLeaveRequest entity;
-
-            var total = new object().TotalWorkHourCalculate(startDate, endDate);
+            CumulativeLeaveRequest entity;             
 
             if (oldtEntity == null)
                 entity = new()
                 {
                     LeaveTypeId = LeaveTypeId,
                     UserId = userId,
-                    Year = startDate.Year,
+                    Year = year,
                     TotalHours = total
                 };
             else

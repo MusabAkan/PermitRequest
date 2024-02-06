@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PermitRequest.Infrastructure.EntityFramework.Contexts;
 using PermitRequest.Infrastructure.EntityFramework;
+using PermitRequest.Domain.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.ConfigureCustomExceptionMiddleware();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

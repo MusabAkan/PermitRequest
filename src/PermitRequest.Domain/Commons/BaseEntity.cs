@@ -1,4 +1,6 @@
-﻿namespace PermitRequest.Domain.Commons
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PermitRequest.Domain.Commons
 {
     public abstract class BaseEntity
     {

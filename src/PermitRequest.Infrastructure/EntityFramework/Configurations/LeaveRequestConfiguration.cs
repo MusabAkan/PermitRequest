@@ -10,6 +10,12 @@ namespace PermitRequest.Infrastructure.EntityFramework.Configurations
         {
             builder.HasKey(e => e.Id);
 
+            builder.Ignore(e => e.TotalWorkHours);
+            builder.Ignore(e => e.Year);
+            builder.Ignore(e => e.CreatedAtStr);
+            builder.Ignore(e => e.StartDateStr);
+            builder.Ignore(e => e.EndDateStr);
+
             builder.Property(e => e.FormNumber)
              .ValueGeneratedOnAdd();
 

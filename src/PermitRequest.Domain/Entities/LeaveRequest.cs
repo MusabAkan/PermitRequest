@@ -5,6 +5,10 @@ using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Events;
 using PermitRequest.Domain.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
+using MediatR;
+using PermitRequest.Domain.Extensions;
+using PermitRequest.Domain.Specifications;
+using System.Threading;
 
 namespace PermitRequest.Domain.Entities
 {
@@ -27,11 +31,41 @@ namespace PermitRequest.Domain.Entities
         //public virtual AdUser? LastModifiedBy { get; set; }
         public Guid? LastModifiedById { get; set; }
         public DateTime? LastModifiedAt { get; set; }
-        [NotMapped]
-        public string AssignedUserStr { get; set; }
 
-        public static LeaveRequest CreateLeaveRequestFactory(AdUser user, DateTime startDate, DateTime endDate, LeaveType leaveType, string reason)
-        { 
+        /****************   Ingore  *****************/
+        public string StartDateStr => StartDate.ToString("dd.MM.yyyy");
+        public string EndDateStr => EndDate.ToString("dd.MM.yyyy");
+        public string CreatedAtStr => CreatedAt.ToString("dd.MM.yyyy");
+        public int Year => StartDate.Year;
+        public int TotalWorkHours
+        {
+            get
+            {
+                int totalWorkHours = 0;
+                const int workHoursPerDay = 8;
+                DateTime currentDate = StartDate;
+
+                while (currentDate <= EndDate)
+                {
+                    if (currentDate.DayOfWeek != DayOfWeek.Sunday)
+                        totalWorkHours += workHoursPerDay;
+                    currentDate = currentDate.AddDays(1);
+                }
+
+                return totalWorkHours;
+            }
+        }
+        /****************   Ingore  *****************/
+
+        public static LeaveRequest CreateLeaveRequestFactory(AdUser user, DateTime startDate, DateTime endDate, LeaveType leaveType, string reason, Guid? managerId, Guid? managerOfManagerId)
+        {
+
+            if (startDate.Date >= endDate.Date)
+                throw new ExceptionMessage("Başlangıç tarih bitiş tarihden büyük yada eşit olmamalıdır..");
+
+            if (reason.Length > 150)
+                throw new ExceptionMessage("Sebep açıklamsında karakter sayısı 150'den fazla olmamalıdır");
+
             static IWorkflowFactory CreateWorkflowFactory(UserType userType, LeaveType leaveType)
             {
                 switch (userType)
@@ -58,13 +92,28 @@ namespace PermitRequest.Domain.Entities
                 StartDate = startDate,
                 EndDate = endDate,
                 Reason = reason,
-                LeaveType = leaveType,
                 WorkflowStatus = result.Item1,
-                AssignedUserStr = result.Item2,
                 CreatedBy = user,
+                LeaveType = leaveType,
             };
 
-            entity.RaiseDomainEvent(new CreateCumulativeEvent(entity));          
+            switch (result.Item2)
+            {
+                case "ManagerOfManagerCase":
+                    entity.AssignedUserId = managerOfManagerId;
+                    break;
+                case "ManagerCase":
+                    entity.AssignedUserId = managerId;
+                    break;
+                case "EmployeeManagerCase":
+                    entity.AssignedUserId = user.Id;
+                    break;
+                default:
+                    entity.AssignedUserId = null;
+                    break;
+            }
+
+            entity.RaiseDomainEvent(new CreateCumulativeEvent(entity));
 
             return entity;
 

@@ -1,9 +1,9 @@
 ﻿using Ardalis.SharedKernel;
 using MediatR;
-using PermitRequest.Application.Constants;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Events;
+using PermitRequest.Domain.Extensions;
 using PermitRequest.Domain.Specifications;
 
 namespace PermitRequest.Application.Features.EventHandlers
@@ -40,7 +40,7 @@ namespace PermitRequest.Application.Features.EventHandlers
                     // %10 fazla izin alındığında exception fırlat ve bildirim gönder
                     if (totalDayCurrrent > 14 * 1.10)
                     {
-                        entity.Message = string.Format(Message.PermissionPeriod, LeaveType.AnnualLeave.ToString());
+                        entity.Message = "AnnualLeave izin süresi aşıldı.";
                         await _notificationRepository.AddAsync(entity);
                         return;
                     }
@@ -54,7 +54,7 @@ namespace PermitRequest.Application.Features.EventHandlers
                     // %20 fazla izin alındığında exception fırlat ve bildirim gönder
                     if (totalDayCurrrent > 5 * 1.20)
                     {
-                        entity.Message = string.Format(Message.PermissionPeriod, LeaveType.ExcusedAbsence.ToString());
+                        entity.Message = "ExcusedAbsence izin süresi aşıldı.";
                         await _notificationRepository.AddAsync(entity);
                         return;
                     }
@@ -73,6 +73,8 @@ namespace PermitRequest.Application.Features.EventHandlers
                     await _notificationRepository.AddAsync(entity);
                 }
             }
+            else
+                throw new ExceptionMessage("Kümülatif tablosuna eklenmemiş yada silinmiştir!!");
 
            await Task.CompletedTask;
 

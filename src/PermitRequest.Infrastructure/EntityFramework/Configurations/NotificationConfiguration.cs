@@ -9,6 +9,10 @@ namespace PermitRequest.Infrastructure.EntityFramework.Configurations
         public void Configure(EntityTypeBuilder<Notification> builder)
         {
             builder.HasKey(e => e.Id);
+
+            builder.Ignore(i => i.CreateDateStr);
+            builder.Ignore(i => i.Year);
+
         }
     }
 }

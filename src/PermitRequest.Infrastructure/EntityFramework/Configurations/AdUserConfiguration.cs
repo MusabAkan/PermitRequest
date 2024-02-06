@@ -10,6 +10,8 @@ namespace PermitRequest.Infrastructure.EntityFramework.Configurations
         {
             builder.HasKey(e => e.Id);
 
+            builder.Ignore(e => e.FullName);
+
             builder.HasMany(c => c.LeaveRequests)
                 .WithOne(c => c.CreatedBy)
                 .HasForeignKey(c => c.CreatedById)

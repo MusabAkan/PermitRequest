@@ -27,7 +27,7 @@ namespace PermitRequest.Infrastructure.EntityFramework
             services.AddScoped<IRepository<CumulativeLeaveRequest>, EfRepository<CumulativeLeaveRequest>>();
             services.AddScoped<IRepository<Notification>, EfRepository<Notification>>();
 
-            services.AddTransient<IRequestHandler<CreateRequestRecordCommand, Result<bool>>, CreateRequestRecordCommandHandler>();
+            services.AddTransient<IRequestHandler<CreateRequestRecordCommand, Result<Guid>>, CreateRequestRecordCommandHandler>();
 
             services.AddTransient<IRequestHandler<GetListLeaveRequestQuery, Result<IEnumerable<LeaveRequestDto>>>, GetListLeaveRequestQueryHandler>();
             services.AddTransient<IRequestHandler<GetByIdLeaveRequestQuery, Result<IEnumerable<LeaveRequestDto>>>, GetByIdLeaveRequestQueryHandler>();

@@ -18,15 +18,15 @@ namespace PermitRequest.Application.Features.EventHandlers
 
         public async Task Handle(CreateCumulativeEvent notification, CancellationToken cancellationToken)
         {          
-            
-            var startDate = notification.LeaveRequest.StartDate;
-            var endDate = notification.LeaveRequest.EndDate;           
+                      
             var userId = notification.LeaveRequest.CreatedById;
             var levaeType = notification.LeaveRequest.LeaveType;
+            var year =  notification.LeaveRequest.Year; 
+            var total = notification.LeaveRequest.TotalWorkHours;
 
-            var exists = await _repository.FirstOrDefaultAsync(new CumulativeLeaveSpec(userId, levaeType, startDate.Year));
-
-            var entity = CumulativeLeaveRequest.CreateCumulativeLeaveRequestFactory(exists, userId, levaeType, startDate, endDate);       
+            var exists = await _repository.FirstOrDefaultAsync(new CumulativeLeaveSpec(userId, levaeType, year));
+ 
+            var entity = CumulativeLeaveRequest.CreateCumulativeLeaveRequestFactory(exists, userId, levaeType, total, year);       
 
             if (exists is not null)
                 await _repository.UpdateAsync(entity);

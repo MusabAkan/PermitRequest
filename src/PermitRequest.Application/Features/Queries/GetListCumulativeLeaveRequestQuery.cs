@@ -2,9 +2,9 @@
 using Ardalis.SharedKernel;
 using AutoMapper;
 using PermissionRequestApp.Domain.Entities.CumulativeLeaveRequestAggregate.Specifications;
-using PermitRequest.Application.Constants;
 using PermitRequest.Application.DTOs;
 using PermitRequest.Domain.Entities;
+using PermitRequest.Domain.Extensions;
 
 namespace PermitRequest.Application.Features.Queries
 {
@@ -19,7 +19,7 @@ namespace PermitRequest.Application.Features.Queries
             var data = await _repository.ListAsync(filterSpec);          
 
             if (data == null || data.Count == 0)
-                return Result.Error(Message.NoData);
+                throw new ExceptionMessage("Veri yok!!");
 
             var cumulativeLeaves = _mapper.Map<List<CumulativeLeaveRequestDto>>(data);
 

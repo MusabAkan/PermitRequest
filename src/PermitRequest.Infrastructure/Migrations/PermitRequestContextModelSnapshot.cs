@@ -48,7 +48,7 @@ namespace PermitRequest.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AdUsers");
+                    b.ToTable("AdUsers", (string)null);
                 });
 
             modelBuilder.Entity("PermitRequest.Domain.Entities.CumulativeLeaveRequest", b =>
@@ -73,7 +73,7 @@ namespace PermitRequest.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CumulativeLeaveRequests");
+                    b.ToTable("CumulativeLeaveRequests", (string)null);
                 });
 
             modelBuilder.Entity("PermitRequest.Domain.Entities.LeaveRequest", b =>
@@ -128,7 +128,7 @@ namespace PermitRequest.Infrastructure.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("LeaveRequest");
+                    b.ToTable("LeaveRequest", (string)null);
                 });
 
             modelBuilder.Entity("PermitRequest.Domain.Entities.Notification", b =>
@@ -156,7 +156,7 @@ namespace PermitRequest.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notification");
+                    b.ToTable("Notification", (string)null);
                 });
 
             modelBuilder.Entity("PermitRequest.Domain.Entities.CumulativeLeaveRequest", b =>

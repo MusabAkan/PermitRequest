@@ -3,9 +3,11 @@ using PermissionRequestApp.Application.Common.Dtos;
 using PermitRequest.Application.DTOs;
 using PermitRequest.Application.Features.Commands;
 using PermitRequest.Application.Features.Queries;
+using PermitRequest.Domain.Commons;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Extensions;
+using static PermitRequest.Domain.Commons.BaseEntity;
 
 namespace PermitRequest.Application.Profiles
 {
@@ -40,7 +42,8 @@ namespace PermitRequest.Application.Profiles
 
             CreateMap<Notification, NotificationDto>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
-                .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.CreateDate.Year))
+                .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Year))
+                .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDateStr))
                 .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src.Message));
                 
 
@@ -48,12 +51,12 @@ namespace PermitRequest.Application.Profiles
             CreateMap<LeaveRequest, LeaveRequestDto>()
               .ForMember(dest => dest.ReqFormNumber, opt => opt.MapFrom(src => src.RequestNumber))
               .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.CreatedBy.FullName))
-              .ForMember(dest => dest.LeaveType, opt => opt.MapFrom(src => src.LeaveType.ToString()))
-              .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreatedAt.DateTimeToString()))
-              .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate.DateTimeToString()))
-              .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate.DateTimeToString()))
-              .ForMember(dest => dest.TotalHour, opt => opt.MapFrom(src => src.TotalWorkHourCalculate(src.StartDate, src.EndDate)))
-              .ForMember(dest => dest.Workflow, opt => opt.MapFrom(src => src.WorkflowStatus.ToString()));
+              .ForMember(dest => dest.LeaveType, opt => opt.MapFrom(src => src.LeaveType))
+              .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreatedAtStr))
+              .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDateStr))
+              .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDateStr))
+              .ForMember(dest => dest.TotalHour, opt => opt.MapFrom(src => src.TotalWorkHours))
+              .ForMember(dest => dest.Workflow, opt => opt.MapFrom(src => src.WorkflowStatus));
         }
     }
 }

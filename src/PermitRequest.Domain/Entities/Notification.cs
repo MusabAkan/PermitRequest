@@ -16,6 +16,11 @@ namespace PermitRequest.Domain.Entities
         public virtual CumulativeLeaveRequest CumulativeLeaveRequest { get; set; }
         public Guid CumulativeLeaveRequestId { get; set; }
 
+        /****************   Ingore  *****************/
+        public string CreateDateStr => CreateDate.ToString("dd.MM.yyyy HH:ss");
+        public int Year => CreateDate.Year;
+        /****************   Ingore  *****************/
+
         public static Notification CreateNotificationRequestFactory(Guid cumulativeLeaveRequestId, Guid userId)
         {
             Notification entity = new()
