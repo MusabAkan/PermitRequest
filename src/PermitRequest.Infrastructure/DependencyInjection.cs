@@ -12,12 +12,12 @@ namespace PermitRequest.Infrastructure
     {
         public static IServiceCollection AddInfrastructureService(this IServiceCollection services)
         {
-            services.AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));          
+         services.AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));          
 
-            services.AddScoped<IAdUserRepository, EfAdUserRepository>();
-            services.AddScoped<ICumulativeLeaveRequestRepository, EfCumulativeLeaveRequestRepository>();
-            services.AddScoped<ILeaveRequestRepository, EfLeaveRequestRepository>();
-            services.AddScoped<INotificationRepository, EfNotificationRepository>();     
+        //    services.AddScoped<IAdUserRepository, EfAdUserRepository>();
+        //    services.AddScoped<ICumulativeLeaveRequestRepository, EfCumulativeLeaveRequestRepository>();
+        //    services.AddScoped<ILeaveRequestRepository, EfLeaveRequestRepository>();
+        //    services.AddScoped<INotificationRepository, EfNotificationRepository>();     
 
             return services;
         }

@@ -18,8 +18,8 @@ namespace PermitRequest.Infrastructure.EntityFramework.Contexts
         public DbSet<AdUser> AdUsers { get; set; }
         public DbSet<CumulativeLeaveRequest> CumulativeLeaveRequests { get; set; }
         public DbSet<LeaveRequest> LeaveRequests { get; set; }
-        public DbSet<Notification> Notifications { get; set; }
-        
+        public DbSet<Notification> Notifications { get; set; }   
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PermitRequest.Infrastructure.EntityFramework.Contexts;
 
@@ -11,9 +12,11 @@ using PermitRequest.Infrastructure.EntityFramework.Contexts;
 namespace PermitRequest.Infrastructure.Migrations
 {
     [DbContext(typeof(PermitRequestContext))]
-    partial class PermitRequestContextModelSnapshot : ModelSnapshot
+    [Migration("20240206212951_revizeTableNames")]
+    partial class revizeTableNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +51,7 @@ namespace PermitRequest.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AdUsers", (string)null);
+                    b.ToTable("AdUsers");
                 });
 
             modelBuilder.Entity("PermitRequest.Domain.Entities.CumulativeLeaveRequest", b =>
@@ -73,7 +76,7 @@ namespace PermitRequest.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CumulativeLeaveRequests", (string)null);
+                    b.ToTable("CumulativeLeaveRequests");
                 });
 
             modelBuilder.Entity("PermitRequest.Domain.Entities.LeaveRequest", b =>
@@ -128,7 +131,7 @@ namespace PermitRequest.Infrastructure.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("LeaveRequests", (string)null);
+                    b.ToTable("LeaveRequests");
                 });
 
             modelBuilder.Entity("PermitRequest.Domain.Entities.Notification", b =>
@@ -156,7 +159,7 @@ namespace PermitRequest.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications", (string)null);
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("PermitRequest.Domain.Entities.CumulativeLeaveRequest", b =>

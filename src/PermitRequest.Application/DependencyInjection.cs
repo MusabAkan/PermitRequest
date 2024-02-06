@@ -16,19 +16,19 @@ namespace PermitRequest.Application
     {
         public static IServiceCollection AddApplicationService(this IServiceCollection services)
         {
-            services.AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
+            //services.AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
 
-            services.AddAutoMapper(typeof(AutoMapperProfile));
+            //services.AddAutoMapper(typeof(AutoMapperProfile));
 
-            services.AddScoped<IRequestHandler<CreateRequestRecordCommand, Result<Guid>>, CreateRequestRecordCommandHandler>();
+            //services.AddScoped<IRequestHandler<CreateRequestRecordCommand, Result<Guid>>, CreateRequestRecordCommandHandler>();
 
-            services.AddScoped<IRequestHandler<GetListLeaveRequestQuery, Result<IEnumerable<LeaveRequestDto>>>, GetListLeaveRequestQueryHandler>();
-            services.AddScoped<IRequestHandler<GetByIdLeaveRequestQuery, Result<IEnumerable<LeaveRequestDto>>>, GetByIdLeaveRequestQueryHandler>();
-            services.AddScoped<IRequestHandler<GetListCumulativeLeaveRequestQuery, Result<IEnumerable<CumulativeLeaveRequestDto>>>, GetListCumulativeLeaveRequestQueryHandler>();
-            services.AddScoped<IRequestHandler<GetListNotificationRequestQuery, Result<IEnumerable<NotificationDto>>>, GetListNotificationRequestQueryHandler>();
+            //services.AddScoped<IRequestHandler<GetListLeaveRequestQuery, Result<IEnumerable<LeaveRequestDto>>>, GetListLeaveRequestQueryHandler>();
+            //services.AddScoped<IRequestHandler<GetByIdLeaveRequestQuery, Result<IEnumerable<LeaveRequestDto>>>, GetByIdLeaveRequestQueryHandler>();
+            //services.AddScoped<IRequestHandler<GetListCumulativeLeaveRequestQuery, Result<IEnumerable<CumulativeLeaveRequestDto>>>, GetListCumulativeLeaveRequestQueryHandler>();
+            //services.AddScoped<IRequestHandler<GetListNotificationRequestQuery, Result<IEnumerable<NotificationDto>>>, GetListNotificationRequestQueryHandler>();
 
-            services.AddScoped<INotificationHandler<CreateCumulativeEvent>, CreateCumulativeEventHandler>();
-            services.AddScoped<INotificationHandler<CreateNotificationEvent>, CreateNotificationEventHandler>();
+            //services.AddScoped<INotificationHandler<CreateCumulativeEvent>, CreateCumulativeEventHandler>();
+            //services.AddScoped<INotificationHandler<CreateNotificationEvent>, CreateNotificationEventHandler>();
 
             return services;
         }
