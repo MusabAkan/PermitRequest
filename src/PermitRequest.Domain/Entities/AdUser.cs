@@ -1,10 +1,10 @@
-﻿using Ardalis.SharedKernel;
+﻿
 using PermitRequest.Core.Commons;
 using PermitRequest.Domain.Enums;
 
 namespace PermitRequest.Domain.Entities
 {
-    public class AdUser : BaseEntity, IAggregateRoot
+    public class AdUser : BaseEntity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

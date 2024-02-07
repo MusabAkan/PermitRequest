@@ -22,7 +22,6 @@ namespace PermitRequest.Infrastructure.EntityFramework.Configurations
               .HasForeignKey(c => c.UserId)
               .OnDelete(DeleteBehavior.Cascade);
 
-
             builder.HasMany(c => c.CumulativeLeaveRequests)
                 .WithOne(c => c.User)
                 .HasForeignKey(c => c.UserId)

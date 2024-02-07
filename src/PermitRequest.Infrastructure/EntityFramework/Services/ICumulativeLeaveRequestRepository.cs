@@ -1,9 +1,9 @@
-﻿using Ardalis.SharedKernel;
+﻿using Ardalis.Specification;
 using PermitRequest.Domain.Entities;
 
 namespace PermitRequest.Infrastructure.EntityFramework.Services
 {
-    public interface ICumulativeLeaveRequestRepository : IRepository<CumulativeLeaveRequest>
+    public interface ICumulativeLeaveRequestRepository : IRepositoryBase<CumulativeLeaveRequest>
     {
     }
 }

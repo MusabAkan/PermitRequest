@@ -1,11 +1,11 @@
-﻿using Ardalis.SharedKernel;
+﻿ 
 using PermitRequest.Domain.Enums;
 using PermitRequest.Core.Commons;
 
 namespace PermitRequest.Domain.Entities
 {
 
-    public class LeaveRequest : BaseEntity, IAggregateRoot
+    public class LeaveRequest : BaseEntity
     {
 
         public long FormNumber { get; set; }

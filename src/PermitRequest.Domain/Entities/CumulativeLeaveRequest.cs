@@ -1,11 +1,10 @@
-﻿using Ardalis.SharedKernel;
-using PermitRequest.Core.Commons;
+﻿using PermitRequest.Core.Commons;
 using PermitRequest.Domain.Enums;
 
 namespace PermitRequest.Domain.Entities
 {
 
-    public class CumulativeLeaveRequest : BaseEntity, IAggregateRoot
+    public class CumulativeLeaveRequest : BaseEntity
     {
         public LeaveType LeaveTypeId { get; set; }
         public virtual AdUser User { get; set; }
