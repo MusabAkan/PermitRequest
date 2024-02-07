@@ -36,7 +36,7 @@ namespace PermitRequest.Application.Features.Commands
 
             var managerOfManagerId = (await _adUserRepository.FirstOrDefaultAsync(new AdUserSpec(), cancellationToken)).Id;
 
-            var leaveRequest = LeaveRequestFactory.CreateLeaveRequest(exists, request.StartDate, request.EndDate, request.LeaveType, request.Reason, managerId, managerOfManagerId);          
+            var leaveRequest = LeaveRequestFactory.Create(exists, request.StartDate, request.EndDate, request.LeaveType, request.Reason, managerId, managerOfManagerId);          
 
             await _leaveRequestRepository.AddAsync(leaveRequest, cancellationToken);
 

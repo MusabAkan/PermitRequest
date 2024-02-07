@@ -1,7 +1,7 @@
 ﻿using PermitRequest.Application.Concrete;
-using PermitRequest.Application.Features.Events;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
+using PermitRequest.Domain.Events;
 using PermitRequest.Domain.Extensions;
 using PermitRequest.Domain.Interfaces;
 
@@ -9,7 +9,7 @@ namespace PermitRequest.Application.Features.Factories
 {
     public class LeaveRequestFactory
     {
-        public static LeaveRequest CreateLeaveRequest(AdUser user, DateTime startDate, DateTime endDate, LeaveType leaveType, string reason, Guid? managerId, Guid? managerOfManagerId)
+        public static LeaveRequest Create(AdUser user, DateTime startDate, DateTime endDate, LeaveType leaveType, string reason, Guid? managerId, Guid? managerOfManagerId)
         {
 
             if (startDate.Date >= endDate.Date)

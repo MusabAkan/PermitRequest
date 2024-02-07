@@ -1,9 +1,7 @@
 ﻿using MediatR;
-using PermitRequest.Application.Features.Events;
 using PermitRequest.Application.Features.Factories;
-using PermitRequest.Application.Specifications;
 using PermitRequest.Domain.Enums;
-using PermitRequest.Domain.Extensions;
+using PermitRequest.Domain.Events;
 using PermitRequest.Infrastructure.EntityFramework.Services;
 
 
@@ -11,78 +9,75 @@ namespace PermitRequest.Application.Features.EventHandlers
 {
     public class CreateNotificationEventHandler : INotificationHandler<CreateNotificationEvent>
     {
-        private readonly ICumulativeLeaveRequestRepository _repositoryCumulative;
+        //private readonly ICumulativeLeaveRequestRepository _repositoryCumulative;
         private readonly INotificationRepository _notificationRepository;
+        private readonly ILeaveRequestRepository _leaveRequestRepository;
 
-        public CreateNotificationEventHandler(ICumulativeLeaveRequestRepository repositoryCumulative, INotificationRepository notificationRepository)
+
+        public CreateNotificationEventHandler(INotificationRepository notificationRepository, ILeaveRequestRepository leaveRequestRepository)
         {
-            _repositoryCumulative = repositoryCumulative;
+           
             _notificationRepository = notificationRepository;
+            _leaveRequestRepository = leaveRequestRepository;
         }
 
         public async Task Handle(CreateNotificationEvent notification, CancellationToken cancellationToken)
         {
+            var cumulativetEntity = notification.CumulativeLeaveRequest;
 
-            var userId = notification.CumulativeLeaveRequest.UserId;
-            var leaveType = notification.CumulativeLeaveRequest.LeaveTypeId;
-            var year = notification.CumulativeLeaveRequest.Year;
+            var leaveEntity = cumulativetEntity.User.LeaveRequests.FirstOrDefault();
 
-            var existsEntity = _repositoryCumulative.FirstOrDefaultAsync(new CumulativeLeaveSpec(userId, leaveType, year)).Result;
+            var notificationEntity = NotificationRequestFactory.Create(cumulativetEntity.Id, cumulativetEntity.UserId);
 
-            if (existsEntity != null)
+            var totalDayCurrrent = ((int)cumulativetEntity.TotalHours / 8);
+
+            // Her izin tipi için müsade edilen gün sayısının %80'i kullanıldığında  
+            var allowedDays = cumulativetEntity.LeaveTypeId == LeaveType.AnnualLeave ? 14 : 5;
+            var threshold = allowedDays * 0.80;
+
+            // İzin süresi sınırları kontrolü
+            if (cumulativetEntity.LeaveTypeId == LeaveType.AnnualLeave && totalDayCurrrent > 14)
             {
-
-                var leaveRequests = existsEntity.User.LeaveRequests;
-
-                var entity = NotificationRequestFactory.CreateNotificationRequest(existsEntity.Id, existsEntity.UserId);
-
-                var totalDayCurrrent = ((int)existsEntity.TotalHours / 8);
-
-                // İzin süresi sınırları kontrolü
-                if (existsEntity.LeaveTypeId == LeaveType.AnnualLeave && totalDayCurrrent > 14)
+                // %10 fazla izin alındığında exception fırlat ve bildirim gönder
+                if (totalDayCurrrent > 14 * 1.10)
                 {
-                    // %10 fazla izin alındığında exception fırlat ve bildirim gönder
-                    if (totalDayCurrrent > 14 * 1.10)
-                    {
-                        entity.Message = "AnnualLeave izin süresi aşıldı.";
-                        await _notificationRepository.AddAsync(entity);
-                        
-                        return;
-                    }
-
-                    entity.Message = "AnnualLeave izin süresi %10 fazla alındı.";
-                    await _notificationRepository.AddAsync(entity);
-
+                    notificationEntity.Message = "AnnualLeave izin süresi aşıldı.";    
+                    leaveEntity.WorkflowStatus = Workflow.Exception;
+                    leaveEntity.LastModifiedById = leaveEntity.AssignedUserId;    
                 }
-                else if (existsEntity.LeaveTypeId == LeaveType.ExcusedAbsence && totalDayCurrrent > 5)
+                else
                 {
-                    // %20 fazla izin alındığında exception fırlat ve bildirim gönder
-                    if (totalDayCurrrent > 5 * 1.20)
-                    {
-                        entity.Message = "ExcusedAbsence izin süresi aşıldı.";
-                        await _notificationRepository.AddAsync(entity);
-                        return;
-                    }
-
-                    entity.Message = "ExcusedAbsence izin süresi %20 fazla alındı.";
-                    await _notificationRepository.AddAsync(entity);
-
+                    notificationEntity.Message = "AnnualLeave izin süresi %10 fazla alındı.";            
                 }
 
-                // Her izin tipi için müsade edilen gün sayısının %80'i kullanıldığında  
-                var allowedDays = existsEntity.LeaveTypeId == LeaveType.AnnualLeave ? 14 : 5;
-                var threshold = allowedDays * 0.80;
-                if (totalDayCurrrent >= threshold)
-                {
-                    entity.Message = $"{existsEntity.LeaveTypeId} izin süresinin %80'i kullanıldı.";
-                    await _notificationRepository.AddAsync(entity);
-                }
             }
-            else
-                throw new ExceptionMessage("Kümülatif tablosuna eklenmemiş yada silinmiştir!!");
+            else if (cumulativetEntity.LeaveTypeId == LeaveType.ExcusedAbsence && totalDayCurrrent > 5)
+            {
+                // %20 fazla izin alındığında exception fırlat ve bildirim gönder
+                if (totalDayCurrrent > 5 * 1.20)
+                {
+                    notificationEntity.Message = "ExcusedAbsence izin süresi aşıldı.";
+                
 
-           await Task.CompletedTask;
+                    leaveEntity.WorkflowStatus = Workflow.Exception;
+                    leaveEntity.LastModifiedById = leaveEntity.AssignedUserId;
+                  
+                    return;
+                }
 
+                notificationEntity.Message = "ExcusedAbsence izin süresi %20 fazla alındı.";
+                await _notificationRepository.AddAsync(notificationEntity);
+                
+
+            }       
+
+            else if (totalDayCurrrent >= threshold)
+                notificationEntity.Message = $"{cumulativetEntity.LeaveTypeId} izin süresinin %80'i kullanıldı.";    
+
+            await _notificationRepository.AddAsync(notificationEntity);
+            await _leaveRequestRepository.SaveChangesAsync();
+
+            await Task.CompletedTask;
         }
     }
 }

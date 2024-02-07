@@ -1,7 +1,7 @@
 ﻿using MediatR;
-using PermitRequest.Application.Features.Events;
 using PermitRequest.Application.Features.Factories;
 using PermitRequest.Application.Specifications;
+using PermitRequest.Domain.Events;
 using PermitRequest.Infrastructure.EntityFramework.Services;
 
 namespace PermitRequest.Application.Features.EventHandlers
@@ -23,10 +23,10 @@ namespace PermitRequest.Application.Features.EventHandlers
             var levaeType = notification.LeaveRequest.LeaveType;
             var year =  notification.LeaveRequest.Year; 
             var total = notification.LeaveRequest.TotalWorkHours;
-
+             
             var exists = await _repository.FirstOrDefaultAsync(new CumulativeLeaveSpec(userId, levaeType, year));
  
-            var entity = CumulativeLeaveRequestFactory.CreateCumulativeLeaveRequest(exists, userId, levaeType, total, year);       
+            var entity = CumulativeLeaveRequestFactory.Create(exists, userId, levaeType, total, year);       
 
             if (exists is not null)
                 await _repository.UpdateAsync(entity);

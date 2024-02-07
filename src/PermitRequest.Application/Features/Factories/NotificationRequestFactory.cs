@@ -4,7 +4,7 @@ namespace PermitRequest.Application.Features.Factories
 {
     public class NotificationRequestFactory
     {
-        public static Notification CreateNotificationRequest(Guid cumulativeLeaveRequestId, Guid userId)
+        public static Notification Create(Guid cumulativeLeaveRequestId, Guid userId)
         {
             Notification entity = new()
             {

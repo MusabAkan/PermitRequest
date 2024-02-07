@@ -4,10 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using PermissionRequestApp.Domain.Common.Dtos;
 using PermitRequest.Application.Features.Commands;
 using PermitRequest.Application.Features.EventHandlers;
-using PermitRequest.Application.Features.Events;
 using PermitRequest.Application.Features.Profiles;
 using PermitRequest.Application.Features.Queries;
 using PermitRequest.Domain.DTOs;
+using PermitRequest.Domain.Events;
 using PermitRequest.Infrastructure.EntityFramework.Repositories;
 using PermitRequest.Infrastructure.EntityFramework.Services;
 

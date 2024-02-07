@@ -1,7 +1,7 @@
 ﻿using PermitRequest.Domain.Commons;
 using PermitRequest.Domain.Entities;
 
-namespace PermitRequest.Application.Features.Events
+namespace PermitRequest.Domain.Events
 {
     public class CreateNotificationEvent(CumulativeLeaveRequest cumulativeLeaveRequest) : DomainEvent
     {

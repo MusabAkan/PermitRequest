@@ -1,12 +1,12 @@
-﻿using PermitRequest.Application.Features.Events;
-using PermitRequest.Domain.Entities;
+﻿using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
+using PermitRequest.Domain.Events;
 
 namespace PermitRequest.Application.Features.Factories
 {
     public class CumulativeLeaveRequestFactory
     {
-        public static CumulativeLeaveRequest CreateCumulativeLeaveRequest(CumulativeLeaveRequest? oldtEntity, Guid userId, LeaveType LeaveTypeId, int total, int year)
+        public static CumulativeLeaveRequest Create(CumulativeLeaveRequest? oldtEntity, Guid userId, LeaveType LeaveTypeId, int total, int year)
         {
             CumulativeLeaveRequest entity;
 
