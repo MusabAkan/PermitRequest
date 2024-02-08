@@ -23,7 +23,7 @@ namespace PermitRequest.Application.Features.Factories
                 entity = oldtEntity;
                 entity.TotalHours += total;     
             }
-            entity.RaiseDomainEvent(new CreateNotificationEvent(entity));
+            
             return entity;
         }
     }

@@ -7,14 +7,14 @@ using PermitRequest.Infrastructure.EntityFramework.Services;
 
 namespace PermitRequest.Application.Features.EventHandlers
 {
-    public class CreateNotificationEventHandler : INotificationHandler<CreateNotificationEvent>
+    public class NotificationCreatedEventHandler : INotificationHandler<CreateNotificationEvent>
     {
         //private readonly ICumulativeLeaveRequestRepository _repositoryCumulative;
         private readonly INotificationRepository _notificationRepository;
         private readonly ILeaveRequestRepository _leaveRequestRepository;
 
 
-        public CreateNotificationEventHandler(INotificationRepository notificationRepository, ILeaveRequestRepository leaveRequestRepository)
+        public NotificationCreatedEventHandler(INotificationRepository notificationRepository, ILeaveRequestRepository leaveRequestRepository)
         {
            
             _notificationRepository = notificationRepository;

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PermitRequest.Domain.Entities;
 
-namespace PermitRequest.Infrastructure.EntityFramework.Configurations
+namespace PermitRequest.Infrastructure.Configurations
 {
     public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
     {

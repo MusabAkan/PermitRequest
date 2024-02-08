@@ -1,9 +1,9 @@
 ﻿using Ardalis.Specification.EntityFrameworkCore;
 using PermitRequest.Domain.Entities;
-using PermitRequest.Infrastructure.EntityFramework.Contexts;
+using PermitRequest.Infrastructure.Contexts;
 using PermitRequest.Infrastructure.EntityFramework.Services;
 
-namespace PermitRequest.Infrastructure.EntityFramework.Repositories
+namespace PermitRequest.Infrastructure.Repositories
 {
     public class EfAdUserRepository : RepositoryBase<AdUser>, IAdUserRepository
     {

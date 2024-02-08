@@ -2,6 +2,7 @@
 using MediatR;
 using PermitRequest.Application.Features.Factories;
 using PermitRequest.Application.Specifications;
+using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Extensions;
 using PermitRequest.Infrastructure.EntityFramework.Services;
@@ -23,25 +24,20 @@ namespace PermitRequest.Application.Features.Commands
 
         public async Task<Result<Guid>> Handle(CreateRequestRecordCommand request, CancellationToken cancellationToken)
         {
-
             if (!Guid.TryParse(request.UserId, out Guid userId))
                 throw new ExceptionMessage("Id tipi Guid olmalıdır...");
 
-            var exists = await _adUserRepository.FirstOrDefaultAsync(new AdUserSpec(userId), cancellationToken);
+            var exist = await _adUserRepository.FirstOrDefaultAsync(new AdUserSpec(userId), cancellationToken);
 
-            if (exists is null)
+            if (exist is null)
                 throw new ExceptionMessage("Kullanıcı bulunamadı..");
 
-            var managerId = exists.ManagerId;
-
-            var managerOfManagerId = (await _adUserRepository.FirstOrDefaultAsync(new AdUserSpec(), cancellationToken)).Id;
-
-            var leaveRequest = LeaveRequestFactory.Create(exists, request.StartDate, request.EndDate, request.LeaveType, request.Reason, managerId, managerOfManagerId);          
+            var leaveRequest = LeaveRequest.CreateFactory(userId, request.StartDate, request.EndDate, request.LeaveType);
 
             await _leaveRequestRepository.AddAsync(leaveRequest, cancellationToken);
 
             return Result.Success(leaveRequest.Id, "Tüm işlemler tamamlanmıştır.");
 
-        }       
+        }
     }
 }

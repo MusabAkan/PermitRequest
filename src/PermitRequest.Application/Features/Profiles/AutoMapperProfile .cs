@@ -44,9 +44,9 @@ namespace PermitRequest.Application.Features.Profiles
               .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.CreatedBy.FullName))
               .ForMember(dest => dest.LeaveType, opt => opt.MapFrom(src => src.LeaveType))
               .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreatedAtStr))
-              .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDateStr))
-              .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDateStr))
-              .ForMember(dest => dest.TotalHour, opt => opt.MapFrom(src => src.TotalWorkHours))
+              .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.BetweenDates.StartDateStr))
+              .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.BetweenDates.EndDateStr))
+              .ForMember(dest => dest.TotalHour, opt => opt.MapFrom(src => src.BetweenDates.TotalWorkHours))
               .ForMember(dest => dest.Workflow, opt => opt.MapFrom(src => src.WorkflowStatus));
         }
     }

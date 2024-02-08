@@ -3,7 +3,7 @@ using Ardalis.Result;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 
-namespace PermitRequest.Domain.Extensions
+namespace PermitRequest.Application.Extensions
 {
     public class ExceptionMidleware
     {

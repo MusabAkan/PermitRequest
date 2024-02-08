@@ -1,9 +1,9 @@
-﻿using Ardalis.Specification;
+﻿using Ardalis.SharedKernel;
 using PermitRequest.Domain.Entities;
 
 namespace PermitRequest.Infrastructure.EntityFramework.Services
 {
-    public interface INotificationRepository : IRepositoryBase<Notification>
+    public interface INotificationRepository : IRepository<Notification>
     {
     }
 }

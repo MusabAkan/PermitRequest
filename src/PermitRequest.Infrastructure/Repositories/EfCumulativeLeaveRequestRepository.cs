@@ -2,7 +2,7 @@
 using Ardalis.Specification.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PermitRequest.Domain.Entities;
-using PermitRequest.Infrastructure.EntityFramework.Contexts;
+using PermitRequest.Infrastructure.Contexts;
 using PermitRequest.Infrastructure.EntityFramework.Services;
 
 namespace PermitRequest.Infrastructure.EntityFramework.Repositories

@@ -41,8 +41,7 @@ namespace PermitRequest.Application.Features.Factories
 
             LeaveRequest entity = new()
             {
-                StartDate = startDate,
-                EndDate = endDate,
+                
                 Reason = reason,
                 WorkflowStatus = result.Item1,
                 CreatedBy = user,
@@ -65,7 +64,7 @@ namespace PermitRequest.Application.Features.Factories
                     break;
             }
 
-            entity.RaiseDomainEvent(new CreateCumulativeEvent(entity));
+           
 
             return entity;
 

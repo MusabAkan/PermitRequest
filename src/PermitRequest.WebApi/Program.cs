@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using PermitRequest.Infrastructure.EntityFramework.Contexts;
 using PermitRequest.Application;
-using PermitRequest.Infrastructure;
-using PermitRequest.Domain.Extensions;
+using PermitRequest.Application.Extensions;
+using PermitRequest.Infrastructure.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 

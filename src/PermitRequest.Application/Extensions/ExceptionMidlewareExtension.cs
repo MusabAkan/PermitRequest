@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace PermitRequest.Domain.Extensions
+namespace PermitRequest.Application.Extensions
 {
     public static class ExceptionMidlewareExtension
     {

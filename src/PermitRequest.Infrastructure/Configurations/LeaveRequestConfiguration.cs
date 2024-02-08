@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PermitRequest.Domain.Entities;
 
-namespace PermitRequest.Infrastructure.EntityFramework.Configurations
+namespace PermitRequest.Infrastructure.Configurations
 {
     internal class LeaveRequestConfiguration : IEntityTypeConfiguration<LeaveRequest>
     {
@@ -10,11 +10,18 @@ namespace PermitRequest.Infrastructure.EntityFramework.Configurations
         {
             builder.HasKey(e => e.Id);
 
-            builder.Ignore(e => e.TotalWorkHours);
-            builder.Ignore(e => e.Year);
-            builder.Ignore(e => e.CreatedAtStr);
-            builder.Ignore(e => e.StartDateStr);
-            builder.Ignore(e => e.EndDateStr);
+            builder.OwnsOne(e => e.BetweenDates);
+
+
+
+            builder.Property(e => e.BetweenDates.StartDate).HasColumnName("StartDate");
+            builder.Property(e => e.BetweenDates.EndDate).HasColumnName("EndDate");
+
+            //builder.Ignore(e => e.BetweenDates.TotalWorkHours);
+            //builder.Ignore(e => e.BetweenDates.Year);
+            ////builder.Ignore(e => e.CreatedAtStr);
+            // builder.Ignore(e => e.BetweenDates.StartDateStr);
+            //builder.Ignore(e => e.BetweenDates.EndDateStr);
 
             builder.Property(e => e.FormNumber)
              .ValueGeneratedOnAdd();

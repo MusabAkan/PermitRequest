@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PermitRequest.Domain.Entities;
 
-namespace PermitRequest.Infrastructure.EntityFramework.Configurations
+namespace PermitRequest.Infrastructure.Configurations
 {
     public class AdUserConfiguration : IEntityTypeConfiguration<AdUser>
     {
@@ -15,7 +15,7 @@ namespace PermitRequest.Infrastructure.EntityFramework.Configurations
             builder.HasMany(c => c.LeaveRequests)
                 .WithOne(c => c.CreatedBy)
                 .HasForeignKey(c => c.CreatedById)
-                .OnDelete(DeleteBehavior.NoAction); 
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(c => c.Notifications)
               .WithOne(c => c.User)

@@ -1,4 +1,5 @@
 ﻿using Ardalis.Result;
+using Ardalis.SharedKernel;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using PermissionRequestApp.Domain.Common.Dtos;
@@ -10,6 +11,7 @@ using PermitRequest.Domain.DTOs;
 using PermitRequest.Domain.Events;
 using PermitRequest.Infrastructure.EntityFramework.Repositories;
 using PermitRequest.Infrastructure.EntityFramework.Services;
+using PermitRequest.Infrastructure.Repositories;
 
 
 namespace PermitRequest.Application
@@ -18,13 +20,15 @@ namespace PermitRequest.Application
     {
         public static IServiceCollection AddApplicationService(this IServiceCollection services)
         {
-            services.AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));          
+            services.AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
 
 
-           services.AddScoped<IAdUserRepository, EfAdUserRepository>();
-           services.AddScoped<ICumulativeLeaveRequestRepository, EfCumulativeLeaveRequestRepository>();
-           services.AddScoped<ILeaveRequestRepository, EfLeaveRequestRepository>();
-           services.AddScoped<INotificationRepository, EfNotificationRepository>();               
+            services.AddScoped<IAdUserRepository, EfAdUserRepository>();
+            services.AddScoped<ICumulativeLeaveRequestRepository, EfCumulativeLeaveRequestRepository>();
+            services.AddScoped<ILeaveRequestRepository, EfLeaveRequestRepository>();
+            services.AddScoped<INotificationRepository, EfNotificationRepository>();
+
+            services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>(); 
 
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
@@ -35,8 +39,8 @@ namespace PermitRequest.Application
             services.AddScoped<IRequestHandler<GetListCumulativeLeaveRequestQuery, Result<IEnumerable<CumulativeLeaveRequestDto>>>, GetListCumulativeLeaveRequestQueryHandler>();
             services.AddScoped<IRequestHandler<GetListNotificationRequestQuery, Result<IEnumerable<NotificationDto>>>, GetListNotificationRequestQueryHandler>();
 
-            services.AddScoped<INotificationHandler<CreateCumulativeEvent>, CreateCumulativeEventHandler>();
-            services.AddScoped<INotificationHandler<CreateNotificationEvent>, CreateNotificationEventHandler>();
+            services.AddScoped<INotificationHandler<CumulativeLeaveRequestCreatedEvent>, CumulativeLeaveRequestCreatedHandler>();
+            services.AddScoped<INotificationHandler<CreateNotificationEvent>, NotificationCreatedEventHandler>();
 
             return services;
         }

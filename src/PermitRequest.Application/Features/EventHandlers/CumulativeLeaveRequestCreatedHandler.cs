@@ -6,23 +6,23 @@ using PermitRequest.Infrastructure.EntityFramework.Services;
 
 namespace PermitRequest.Application.Features.EventHandlers
 {
-    public class CreateCumulativeEventHandler : INotificationHandler<CreateCumulativeEvent>
+    public class CumulativeLeaveRequestCreatedHandler : INotificationHandler<CumulativeLeaveRequestCreatedEvent>
     {
       
         private readonly ICumulativeLeaveRequestRepository _repository;
 
-        public CreateCumulativeEventHandler(ICumulativeLeaveRequestRepository repository)
+        public CumulativeLeaveRequestCreatedHandler(ICumulativeLeaveRequestRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task Handle(CreateCumulativeEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(CumulativeLeaveRequestCreatedEvent notification, CancellationToken cancellationToken)
         {         
                       
             var userId = notification.LeaveRequest.CreatedById;
             var levaeType = notification.LeaveRequest.LeaveType;
-            var year =  notification.LeaveRequest.Year; 
-            var total = notification.LeaveRequest.TotalWorkHours;
+            var year =  notification.LeaveRequest.BetweenDates.Year; 
+            var total = notification.LeaveRequest.BetweenDates.TotalWorkHours;
              
             var exists = await _repository.FirstOrDefaultAsync(new CumulativeLeaveSpec(userId, levaeType, year));
  

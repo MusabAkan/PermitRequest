@@ -1,9 +1,9 @@
-﻿using PermitRequest.Core.Commons;
+﻿using Ardalis.SharedKernel;
 
 namespace PermitRequest.Domain.Entities
 {
 
-    public class Notification : BaseEntity
+    public class Notification : BaseEntity, IAggregateRoot
     {
 
         public AdUser User { get; set; }
