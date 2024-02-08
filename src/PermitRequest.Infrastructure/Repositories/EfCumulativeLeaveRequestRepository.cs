@@ -1,6 +1,4 @@
-﻿using Ardalis.Specification;
-using Ardalis.Specification.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Ardalis.Specification.EntityFrameworkCore;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Infrastructure.Contexts;
 using PermitRequest.Infrastructure.EntityFramework.Services;

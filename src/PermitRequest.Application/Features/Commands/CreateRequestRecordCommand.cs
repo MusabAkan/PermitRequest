@@ -26,14 +26,14 @@ namespace PermitRequest.Application.Features.Commands
             if (!Guid.TryParse(request.UserId, out Guid userId))
                 throw new ExceptionMessage("Id tipi Guid olmalıdır...");
 
-            var exist = await _adUserRepository.FirstOrDefaultAsync(new AdUserSpec(userId), cancellationToken);
+            var exist = await _adUserRepository.FirstOrDefaultAsync(new AdUserSpec(userId));
 
             if (exist is null)
                 throw new ExceptionMessage("Kullanıcı bulunamadı..");
 
             var leaveRequest = LeaveRequest.CreateFactory(userId, request.StartDate, request.EndDate, request.LeaveType, request.Reason);
 
-            await _leaveRequestRepository.AddAsync(leaveRequest, cancellationToken);
+            await _leaveRequestRepository.AddAsync(leaveRequest);
 
             return Result.Success(leaveRequest.Id, "Tüm işlemler tamamlanmıştır.");
 

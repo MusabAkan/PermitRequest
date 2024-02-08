@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PermitRequest.Infrastructure.Contexts;
 
@@ -11,9 +12,11 @@ using PermitRequest.Infrastructure.Contexts;
 namespace PermitRequest.Infrastructure.Migrations
 {
     [DbContext(typeof(PermitRequestContext))]
-    partial class PermitRequestContextModelSnapshot : ModelSnapshot
+    [Migration("20240208185142_db2")]
+    partial class db2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

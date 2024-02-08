@@ -26,6 +26,7 @@ namespace PermitRequest.Application
             services.AddScoped<ICumulativeLeaveRequestRepository, EfCumulativeLeaveRequestRepository>();
             services.AddScoped<ILeaveRequestRepository, EfLeaveRequestRepository>();
             services.AddScoped<INotificationRepository, EfNotificationRepository>();
+          
 
             services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>(); 
 
@@ -38,8 +39,8 @@ namespace PermitRequest.Application
             services.AddScoped<IRequestHandler<GetListCumulativeLeaveRequestQuery, Result<IEnumerable<CumulativeLeaveRequestDto>>>, GetListCumulativeLeaveRequestQueryHandler>();
             services.AddScoped<IRequestHandler<GetListNotificationRequestQuery, Result<IEnumerable<NotificationDto>>>, GetListNotificationRequestQueryHandler>();
 
-            services.AddScoped<INotificationHandler<CumulativeLeaveRequestCreatedEvent>, CumulativeLeaveRequestCreatedHandler>();
-            services.AddScoped<INotificationHandler<NotificationCreatedEvent>, NotificationCreatedEventHandler>();
+            //services.AddScoped<INotificationHandler<CumulativeLeaveRequestCreatedEvent>, CumulativeLeaveRequestCreatedHandler>();
+            //services.AddScoped<INotificationHandler<NotificationCreatedEvent>, NotificationCreatedEventHandler>();
 
             return services;
         }

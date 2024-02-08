@@ -1,8 +1,8 @@
-﻿
-using PermitRequest.Domain.Enums;
+﻿using PermitRequest.Domain.Enums;
 using Ardalis.SharedKernel;
 using PermitRequest.Domain.Events;
 using PermitRequest.Domain.ValueObjets;
+using PermitRequest.Domain.Entities.Base;
 
 namespace PermitRequest.Domain.Entities
 {

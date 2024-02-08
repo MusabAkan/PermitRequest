@@ -4,7 +4,7 @@ using PermitRequest.Domain.Enums;
 
 namespace PermitRequest.Application.Specifications
 {
-    public class CumulativeLeaveSpec : Specification<CumulativeLeaveRequest>
+    public class CumulativeLeaveSpec : SingleResultSpecification<CumulativeLeaveRequest>
     {
 
         public CumulativeLeaveSpec(Guid userId, LeaveType leaveType, int year)

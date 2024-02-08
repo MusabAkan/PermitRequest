@@ -1,4 +1,5 @@
 ﻿using Ardalis.SharedKernel;
+using PermitRequest.Domain.Entities.Base;
 
 namespace PermitRequest.Domain.Entities
 {

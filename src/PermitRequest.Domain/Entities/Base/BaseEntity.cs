@@ -1,7 +1,6 @@
-﻿
-using Ardalis.SharedKernel;
+﻿using Ardalis.SharedKernel;
 
-namespace PermitRequest.Domain.Entities
+namespace PermitRequest.Domain.Entities.Base
 {
     public abstract class BaseEntity : EntityBase
     {
