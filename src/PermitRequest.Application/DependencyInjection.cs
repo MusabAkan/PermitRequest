@@ -22,7 +22,6 @@ namespace PermitRequest.Application
         {
             services.AddMediatR(cf => cf.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
 
-
             services.AddScoped<IAdUserRepository, EfAdUserRepository>();
             services.AddScoped<ICumulativeLeaveRequestRepository, EfCumulativeLeaveRequestRepository>();
             services.AddScoped<ILeaveRequestRepository, EfLeaveRequestRepository>();
@@ -40,7 +39,7 @@ namespace PermitRequest.Application
             services.AddScoped<IRequestHandler<GetListNotificationRequestQuery, Result<IEnumerable<NotificationDto>>>, GetListNotificationRequestQueryHandler>();
 
             services.AddScoped<INotificationHandler<CumulativeLeaveRequestCreatedEvent>, CumulativeLeaveRequestCreatedHandler>();
-            services.AddScoped<INotificationHandler<CreateNotificationEvent>, NotificationCreatedEventHandler>();
+            services.AddScoped<INotificationHandler<NotificationCreatedEvent>, NotificationCreatedEventHandler>();
 
             return services;
         }

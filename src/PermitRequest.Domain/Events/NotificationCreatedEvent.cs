@@ -1,9 +1,9 @@
-﻿using MediatR;
+﻿using Ardalis.SharedKernel;
 using PermitRequest.Domain.Entities;
 
 namespace PermitRequest.Domain.Events
 {
-    public class CreateNotificationEvent(CumulativeLeaveRequest cumulativeLeaveRequest) : INotification
+    public class NotificationCreatedEvent(CumulativeLeaveRequest cumulativeLeaveRequest) : DomainEventBase
     {
         public CumulativeLeaveRequest CumulativeLeaveRequest = cumulativeLeaveRequest;
     }

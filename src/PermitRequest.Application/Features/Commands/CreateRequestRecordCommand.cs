@@ -21,7 +21,6 @@ namespace PermitRequest.Application.Features.Commands
             _adUserRepository = adUserRepository;
             _leaveRequestRepository = leaveRequestRepository;
         }
-
         public async Task<Result<Guid>> Handle(CreateRequestRecordCommand request, CancellationToken cancellationToken)
         {
             if (!Guid.TryParse(request.UserId, out Guid userId))
@@ -32,7 +31,7 @@ namespace PermitRequest.Application.Features.Commands
             if (exist is null)
                 throw new ExceptionMessage("Kullanıcı bulunamadı..");
 
-            var leaveRequest = LeaveRequest.CreateFactory(userId, request.StartDate, request.EndDate, request.LeaveType);
+            var leaveRequest = LeaveRequest.CreateFactory(userId, request.StartDate, request.EndDate, request.LeaveType, request.Reason);
 
             await _leaveRequestRepository.AddAsync(leaveRequest, cancellationToken);
 

@@ -7,7 +7,7 @@ using PermitRequest.Infrastructure.EntityFramework.Services;
 
 namespace PermitRequest.Application.Features.EventHandlers
 {
-    public class NotificationCreatedEventHandler : INotificationHandler<CreateNotificationEvent>
+    public class NotificationCreatedEventHandler : INotificationHandler<NotificationCreatedEvent>
     {
         //private readonly ICumulativeLeaveRequestRepository _repositoryCumulative;
         private readonly INotificationRepository _notificationRepository;
@@ -21,7 +21,7 @@ namespace PermitRequest.Application.Features.EventHandlers
             _leaveRequestRepository = leaveRequestRepository;
         }
 
-        public async Task Handle(CreateNotificationEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(NotificationCreatedEvent notification, CancellationToken cancellationToken)
         {
             var cumulativetEntity = notification.CumulativeLeaveRequest;
 

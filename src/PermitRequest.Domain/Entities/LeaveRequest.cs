@@ -12,7 +12,7 @@ namespace PermitRequest.Domain.Entities
         public long FormNumber { get; set; }
         public string RequestNumber { get; set; }
         public LeaveType LeaveType { get; set; }
-        public string? Reason { get; set; }
+        public ReasonExplanation? ReasonExplanation { get; set; }
         public BetweenDate BetweenDates { get; set; }
         public Workflow WorkflowStatus { get; set; }
         public Guid? AssignedUserId { get; set; }
@@ -23,16 +23,18 @@ namespace PermitRequest.Domain.Entities
         public Guid? LastModifiedById { get; set; }
         public DateTime? LastModifiedAt { get; set; }
 
-        public static LeaveRequest CreateFactory(Guid userId, DateTime startDate, DateTime endDate, LeaveType leaveType)
+        public static LeaveRequest CreateFactory(Guid userId, DateTime startDate, DateTime endDate, LeaveType leaveType, string reason)
         {
             LeaveRequest leaveRequest = new()
             {
                 CreatedById = userId,
+                LeaveType = leaveType,
+                ReasonExplanation = new ReasonExplanation(reason),  
                 BetweenDates = new BetweenDate(startDate, endDate),
-                LeaveType = leaveType
             };
 
             leaveRequest.RegisterDomainEvent(new CumulativeLeaveRequestCreatedEvent(leaveRequest));
+
             return leaveRequest;
         }
     }

@@ -26,12 +26,12 @@ namespace PermitRequest.Application.Features.EventHandlers
              
             var exists = await _repository.FirstOrDefaultAsync(new CumulativeLeaveSpec(userId, levaeType, year));
  
-            var entity = CumulativeLeaveRequestFactory.Create(exists, userId, levaeType, total, year);       
+            //var entity = CumulativeLeaveRequestFactory.Create(exists, userId, levaeType, total, year);       
 
-            if (exists is not null)
-                await _repository.UpdateAsync(entity);
-            else
-                await _repository.AddAsync(entity);
+            //if (exists is not null)
+            //    await _repository.UpdateAsync(entity);
+            //else
+            //    await _repository.AddAsync(entity);
 
             await Task.CompletedTask;
         }

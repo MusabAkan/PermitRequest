@@ -3,7 +3,6 @@ using PermitRequest.Domain.Enums;
 
 namespace PermitRequest.Domain.Entities
 {
-
     public class CumulativeLeaveRequest : BaseEntity, IAggregateRoot
     {
         public LeaveType LeaveTypeId { get; set; }

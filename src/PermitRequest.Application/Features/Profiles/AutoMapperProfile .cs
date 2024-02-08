@@ -28,20 +28,20 @@ namespace PermitRequest.Application.Features.Profiles
                 .ConstructUsing(src => new GetByIdLeaveRequestQuery(src.skip, src.take, src.userId));
 
             CreateMap<CumulativeLeaveRequest, CumulativeLeaveRequestDto>()
-                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName.ToString()))
                 .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Year))
                 .ForMember(dest => dest.LeaveType, opt => opt.MapFrom(src => src.LeaveTypeId))
                 .ForMember(dest => dest.TotalHour, opt => opt.MapFrom(src => src.TotalHours));
 
             CreateMap<Notification, NotificationDto>()
-                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName.ToString()))
                 .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Year))
                 .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDateStr))
                 .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src.Message));
 
             CreateMap<LeaveRequest, LeaveRequestDto>()
               .ForMember(dest => dest.ReqFormNumber, opt => opt.MapFrom(src => src.RequestNumber))
-              .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.CreatedBy.FullName))
+              .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.CreatedBy.FullName.ToString()))
               .ForMember(dest => dest.LeaveType, opt => opt.MapFrom(src => src.LeaveType))
               .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreatedAtStr))
               .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.BetweenDates.StartDateStr))

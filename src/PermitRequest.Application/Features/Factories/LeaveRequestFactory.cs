@@ -38,35 +38,35 @@ namespace PermitRequest.Application.Features.Factories
                 }
             }
             var result = CreateWorkflowFactory(user.UserType, leaveType).CreateWorkflow();
-
-            LeaveRequest entity = new()
-            {
+            
+            //LeaveRequest entity = new()
+            //{
                 
-                Reason = reason,
-                WorkflowStatus = result.Item1,
-                CreatedBy = user,
-                LeaveType = leaveType,
-            };
+            //    Reason = reason,
+            //    WorkflowStatus = result.Item1,
+            //    CreatedBy = user,
+            //    LeaveType = leaveType,
+            //};
 
-            switch (result.Item2)
-            {
-                case "ManagerOfManagerCase":
-                    entity.AssignedUserId = managerOfManagerId;
-                    break;
-                case "ManagerCase":
-                    entity.AssignedUserId = managerId;
-                    break;
-                case "EmployeeManagerCase":
-                    entity.AssignedUserId = user.Id;
-                    break;
-                default:
-                    entity.AssignedUserId = null;
-                    break;
-            }
+            //switch (result.Item2)
+            //{
+            //    case "ManagerOfManagerCase":
+            //        entity.AssignedUserId = managerOfManagerId;
+            //        break;
+            //    case "ManagerCase":
+            //        entity.AssignedUserId = managerId;
+            //        break;
+            //    case "EmployeeManagerCase":
+            //        entity.AssignedUserId = user.Id;
+            //        break;
+            //    default:
+            //        entity.AssignedUserId = null;
+            //        break;
+            //}
 
            
 
-            return entity;
+            return null;
 
         }
     }

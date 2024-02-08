@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using PermitRequest.Domain.Entities;
+using PermitRequest.Domain.ValueObjets;
 
 namespace PermitRequest.Infrastructure.Configurations
 {
@@ -10,18 +11,12 @@ namespace PermitRequest.Infrastructure.Configurations
         {
             builder.HasKey(e => e.Id);
 
-            builder.OwnsOne(e => e.BetweenDates);
+            var withBetweenDates = builder.OwnsOne(e => e.BetweenDates);
+            withBetweenDates.Property(e => e.StartDate).HasColumnName("StartDate");
+            withBetweenDates.Property(e => e.EndDate).HasColumnName("EndDate");
 
-
-
-            builder.Property(e => e.BetweenDates.StartDate).HasColumnName("StartDate");
-            builder.Property(e => e.BetweenDates.EndDate).HasColumnName("EndDate");
-
-            //builder.Ignore(e => e.BetweenDates.TotalWorkHours);
-            //builder.Ignore(e => e.BetweenDates.Year);
-            ////builder.Ignore(e => e.CreatedAtStr);
-            // builder.Ignore(e => e.BetweenDates.StartDateStr);
-            //builder.Ignore(e => e.BetweenDates.EndDateStr);
+            var withReasonExplanation = builder.OwnsOne(e => e.ReasonExplanation);
+            withReasonExplanation.Property(e => e.Reason).HasColumnName("Reason");
 
             builder.Property(e => e.FormNumber)
              .ValueGeneratedOnAdd();

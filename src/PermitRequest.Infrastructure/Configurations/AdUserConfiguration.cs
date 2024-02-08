@@ -8,9 +8,12 @@ namespace PermitRequest.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<AdUser> builder)
         {
-            builder.HasKey(e => e.Id);
+            builder.HasKey(e => e.Id);        
 
-            builder.Ignore(e => e.FullName);
+            var withEntity = builder.OwnsOne(e => e.FullName);
+
+            withEntity.Property(e => e.FirstName).HasColumnName("FirstName");
+            withEntity.Property(e => e.LastName).HasColumnName("LastName");
 
             builder.HasMany(c => c.LeaveRequests)
                 .WithOne(c => c.CreatedBy)

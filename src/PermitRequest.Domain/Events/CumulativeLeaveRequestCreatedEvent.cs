@@ -7,5 +7,4 @@ namespace PermitRequest.Domain.Events
     {
         public LeaveRequest LeaveRequest = leaveRequest;
     }
-
 }
