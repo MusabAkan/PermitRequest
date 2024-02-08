@@ -1,9 +1,6 @@
-﻿using Ardalis.SharedKernel;
-using MediatR;
-using PermitRequest.Application.Features.Factories;
+﻿using MediatR;
 using PermitRequest.Application.Specifications;
 using PermitRequest.Domain.Entities;
-using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Events;
 using PermitRequest.Infrastructure.EntityFramework.Services;
 
@@ -19,6 +16,7 @@ namespace PermitRequest.Application.Features.EventHandlers
         }
         public async Task Handle(CumulativeLeaveRequestCreatedEvent notification, CancellationToken cancellationToken)
         {
+            var leaveRequestId = notification.LeaveRequest.Id;
             var userId = notification.LeaveRequest.CreatedById;
             var levaeType = notification.LeaveRequest.LeaveType;
             var year = notification.LeaveRequest.BetweenDates.Year;
@@ -28,14 +26,14 @@ namespace PermitRequest.Application.Features.EventHandlers
 
             var exists = await _repository.SingleOrDefaultAsync(filter);
 
-            var entity = CumulativeLeaveRequest.CreateFactory(exists, userId, levaeType, total, year);
+            var entity = CumulativeLeaveRequest.CreateFactory(exists, userId, levaeType, total, year, leaveRequestId);
 
             if (exists is not null)
-                _repository.UpdateAsync(entity).GetAwaiter();
+                await _repository.UpdateAsync(entity);
             else
-                _repository.AddAsync(entity).GetAwaiter();
+                await _repository.AddAsync(entity);
 
-           await Task.CompletedTask;
+            await Task.CompletedTask;
         }
     }
 }

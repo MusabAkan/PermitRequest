@@ -1,18 +1,13 @@
 ﻿using System.Net;
 using Ardalis.Result;
 using System.Text.Json;
-using Microsoft.AspNetCore.Http;
 
-namespace PermitRequest.Application.Extensions
+namespace PermitRequest.WebApi.Extensions
 {
     public class ExceptionMidleware
     {
         readonly RequestDelegate _next;
-
-        public ExceptionMidleware(RequestDelegate next)
-        {
-            _next = next;
-        }
+        public ExceptionMidleware(RequestDelegate next) => _next = next;
         public async Task InvokeAsync(HttpContext httpContext)
         {
             try

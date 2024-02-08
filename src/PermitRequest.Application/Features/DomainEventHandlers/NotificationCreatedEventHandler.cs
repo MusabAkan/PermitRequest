@@ -9,14 +9,11 @@ namespace PermitRequest.Application.Features.EventHandlers
 {
     public class NotificationCreatedEventHandler : INotificationHandler<NotificationCreatedEvent>
     {
-        //private readonly ICumulativeLeaveRequestRepository _repositoryCumulative;
+        
         private readonly INotificationRepository _notificationRepository;
         private readonly ILeaveRequestRepository _leaveRequestRepository;
-
-
         public NotificationCreatedEventHandler(INotificationRepository notificationRepository, ILeaveRequestRepository leaveRequestRepository)
-        {
-           
+        {           
             _notificationRepository = notificationRepository;
             _leaveRequestRepository = leaveRequestRepository;
         }

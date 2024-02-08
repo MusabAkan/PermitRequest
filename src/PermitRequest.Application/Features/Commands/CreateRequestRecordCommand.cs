@@ -31,7 +31,9 @@ namespace PermitRequest.Application.Features.Commands
             if (exist is null)
                 throw new ExceptionMessage("Kullanıcı bulunamadı..");
 
-            var leaveRequest = LeaveRequest.CreateFactory(userId, request.StartDate, request.EndDate, request.LeaveType, request.Reason);
+            var userType = exist.UserType;
+
+            var leaveRequest = LeaveRequest.CreateFactory(userId, request.StartDate, request.EndDate, request.LeaveType, request.Reason, userType);
 
             await _leaveRequestRepository.AddAsync(leaveRequest);
 

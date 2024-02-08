@@ -1,6 +1,7 @@
 ﻿using Ardalis.SharedKernel;
 using PermitRequest.Domain.Entities.Base;
 using PermitRequest.Domain.Enums;
+using PermitRequest.Domain.Events;
 
 namespace PermitRequest.Domain.Entities
 {
@@ -19,8 +20,9 @@ namespace PermitRequest.Domain.Entities
             UserId = userId;
             TotalHours = totalHours;
             Year = year;
-        }
-        public static CumulativeLeaveRequest CreateFactory(CumulativeLeaveRequest? oldEntity, Guid userId, LeaveType LeaveTypeId, int total, int year)
+        }      
+
+        public static CumulativeLeaveRequest CreateFactory(CumulativeLeaveRequest? oldEntity, Guid userId, LeaveType LeaveTypeId, int total, int year, Guid leaveRequestId)
         {
             CumulativeLeaveRequest entity;
 
@@ -31,6 +33,8 @@ namespace PermitRequest.Domain.Entities
                 entity = oldEntity;
                 entity.TotalHours += total;
             }
+            entity.RegisterDomainEvent(new NotificationCreatedEvent(entity, leaveRequestId));
+
             return entity;
         }
     }

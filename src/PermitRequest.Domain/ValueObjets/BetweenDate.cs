@@ -31,6 +31,9 @@ namespace PermitRequest.Domain.ValueObjets
             if (startDate.Date >= endDate.Date)
                 throw new ExceptionMessage("Başlangıç tarih bitiş tarihden büyük yada eşit olmamalıdır..");
 
+            if (startDate.Date < DateTime.Now.Date)
+                throw new ExceptionMessage("Başlangıç  tarihi bugünden itibaren olmalıdır...");
+
             StartDate = startDate;
             EndDate = endDate;
         }

@@ -11,14 +11,14 @@ namespace PermitRequest.Domain.ValueObjets
         private const int MaxLength = 250;
         public ReasonExplanation(string? reason)
         {
-            var result = reason.Trim();
+            string result = reason.Trim() ;
 
             if (result.Length > MaxLength)
-                throw new ExceptionMessage($"Sebep açıklamasındaki karakter sayısı {MaxLength} fazla olamaz..");
+                throw new ExceptionMessage($"İzin Talep açıklamasındaki karakter sayısı {MaxLength} fazla olamaz..");
 
             Reason = result;
         }
-       
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Reason;

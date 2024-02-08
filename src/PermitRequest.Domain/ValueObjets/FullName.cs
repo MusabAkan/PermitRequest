@@ -19,7 +19,6 @@ namespace PermitRequest.Domain.ValueObjets
         {
             yield return FirstName;
             yield return LastName;
-
         }
     }
 }
