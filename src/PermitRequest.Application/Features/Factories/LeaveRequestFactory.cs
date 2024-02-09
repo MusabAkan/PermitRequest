@@ -3,7 +3,7 @@ using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Events;
 using PermitRequest.Domain.Extensions;
-using PermitRequest.Domain.Interfaces;
+using PermitRequest.Domain.Services;
 
 namespace PermitRequest.Application.Features.Factories
 {
@@ -18,26 +18,7 @@ namespace PermitRequest.Application.Features.Factories
             if (reason.Length > 150)
                 throw new ExceptionMessage("Sebep açıklamsında karakter sayısı 150'den fazla olmamalıdır");
 
-            static IWorkflowFactory CreateWorkflowFactory(UserType userType, LeaveType leaveType)
-            {
-                switch (userType)
-                {
-                    case UserType.WhiteCollarEmployee:
-                        return new WhiteCollarEmployeeWorkflowFactory();
-                    case UserType.BlueCollarEmployee:
-                        if (leaveType == LeaveType.AnnualLeave)
-                            return new BlueCollarEmployeeAnnualLeaveWorkflowFactory();
-                        else if (leaveType == LeaveType.ExcusedAbsence)
-                            return new BlueCollarEmployeeExcusedAbsenceWorkflowFactory();
-                        else
-                            throw new ArgumentOutOfRangeException();
-                    case UserType.Manager:
-                        return new ManagerWorkflowFactory();
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-            var result = CreateWorkflowFactory(user.UserType, leaveType).CreateWorkflow();
+           
             
             //LeaveRequest entity = new()
             //{

@@ -9,6 +9,7 @@ using PermitRequest.Application.Features.Profiles;
 using PermitRequest.Application.Features.Queries;
 using PermitRequest.Domain.DTOs;
 using PermitRequest.Domain.Events;
+using PermitRequest.Domain.Services;
 using PermitRequest.Infrastructure.EntityFramework.Repositories;
 using PermitRequest.Infrastructure.EntityFramework.Services;
 using PermitRequest.Infrastructure.Repositories;
@@ -25,8 +26,7 @@ namespace PermitRequest.Application
             services.AddScoped<IAdUserRepository, EfAdUserRepository>();
             services.AddScoped<ICumulativeLeaveRequestRepository, EfCumulativeLeaveRequestRepository>();
             services.AddScoped<ILeaveRequestRepository, EfLeaveRequestRepository>();
-            services.AddScoped<INotificationRepository, EfNotificationRepository>();
-          
+            services.AddScoped<INotificationRepository, EfNotificationRepository>();          
 
             services.AddScoped<IDomainEventDispatcher, MediatRDomainEventDispatcher>(); 
 
@@ -37,10 +37,7 @@ namespace PermitRequest.Application
             services.AddScoped<IRequestHandler<GetListLeaveRequestQuery, Result<IEnumerable<LeaveRequestDto>>>, GetListLeaveRequestQueryHandler>();
             services.AddScoped<IRequestHandler<GetByIdLeaveRequestQuery, Result<IEnumerable<LeaveRequestDto>>>, GetByIdLeaveRequestQueryHandler>();
             services.AddScoped<IRequestHandler<GetListCumulativeLeaveRequestQuery, Result<IEnumerable<CumulativeLeaveRequestDto>>>, GetListCumulativeLeaveRequestQueryHandler>();
-            services.AddScoped<IRequestHandler<GetListNotificationRequestQuery, Result<IEnumerable<NotificationDto>>>, GetListNotificationRequestQueryHandler>();
-
-            //services.AddScoped<INotificationHandler<CumulativeLeaveRequestCreatedEvent>, CumulativeLeaveRequestCreatedHandler>();
-            //services.AddScoped<INotificationHandler<NotificationCreatedEvent>, NotificationCreatedEventHandler>();
+            services.AddScoped<IRequestHandler<GetListNotificationRequestQuery, Result<IEnumerable<NotificationDto>>>, GetListNotificationRequestQueryHandler>(); 
 
             return services;
         }

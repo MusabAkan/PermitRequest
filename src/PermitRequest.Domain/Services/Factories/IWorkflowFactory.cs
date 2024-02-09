@@ -1,6 +1,6 @@
 ﻿using PermitRequest.Domain.Enums;
 
-namespace PermitRequest.Domain.Interfaces
+namespace PermitRequest.Infrastructure.Repositories.Factories
 {
     public interface IWorkflowFactory
     {

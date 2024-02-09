@@ -1,6 +1,6 @@
 ﻿
 using PermitRequest.Domain.Enums;
-using PermitRequest.Domain.Interfaces;
+using PermitRequest.Domain.Services;
 
 namespace PermitRequest.Application.Concrete
 {

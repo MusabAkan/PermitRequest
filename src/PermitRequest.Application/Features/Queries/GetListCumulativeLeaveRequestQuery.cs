@@ -4,7 +4,7 @@ using AutoMapper;
 using PermitRequest.Application.Specifications;
 using PermitRequest.Domain.DTOs;
 using PermitRequest.Domain.Extensions;
-using PermitRequest.Infrastructure.EntityFramework.Services;
+using PermitRequest.Domain.Services;
 
 namespace PermitRequest.Application.Features.Queries
 {

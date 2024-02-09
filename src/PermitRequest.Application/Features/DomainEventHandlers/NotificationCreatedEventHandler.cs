@@ -2,7 +2,7 @@
 using PermitRequest.Application.Features.Factories;
 using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Events;
-using PermitRequest.Infrastructure.EntityFramework.Services;
+using PermitRequest.Domain.Services;
 
 
 namespace PermitRequest.Application.Features.EventHandlers
