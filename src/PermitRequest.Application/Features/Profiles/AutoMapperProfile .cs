@@ -13,7 +13,7 @@ namespace PermitRequest.Application.Features.Profiles
         public AutoMapperProfile()
         {
             CreateMap<RequestRecordDto, CreateRequestRecordCommand>()
-                .ConstructUsing(src => new CreateRequestRecordCommand(src.UserId, DateTime.Parse(src.StartDate), DateTime.Parse(src.EndDate), (LeaveType)src.LeaveType, src.reason));
+                .ConstructUsing(src => new CreateRequestRecordCommand(Guid.Parse(src.UserId), DateTime.Parse(src.StartDate), DateTime.Parse(src.EndDate), (LeaveType)src.LeaveType, src.reason));
 
             CreateMap<GetListDto, GetListLeaveRequestQuery>()
                 .ConstructUsing(src => new GetListLeaveRequestQuery(src.skip, src.take));

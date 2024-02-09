@@ -15,6 +15,17 @@ namespace PermitRequest.Domain.Entities
         /****************   Ingore  *****************/
         public string CreateDateStr => CreateDate.ToString("dd.MM.yyyy HH:ss");
         public int Year => CreateDate.Year;
-        /****************   Ingore  *****************/       
+        /****************   Ingore  *****************/
+
+        public static Notification CreateFactory(Guid cumulativeLeaveRequestId, Guid userId)
+        {
+            Notification entity = new()
+            {
+                CreateDate = DateTime.Now,
+                CumulativeLeaveRequestId = cumulativeLeaveRequestId,
+                UserId = userId,
+            };
+            return entity;
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Ardalis.Result;
 using MediatR;
-using PermitRequest.Application.Features.Factories;
 using PermitRequest.Application.Specifications;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
@@ -10,7 +9,7 @@ using PermitRequest.Infrastructure.EntityFramework.Services;
 namespace PermitRequest.Application.Features.Commands
 {
 
-    public record CreateRequestRecordCommand(string UserId, DateTime StartDate, DateTime EndDate, LeaveType LeaveType, string Reason) : IRequest<Result<Guid>>;
+    public record CreateRequestRecordCommand(Guid UserId, DateTime StartDate, DateTime EndDate, LeaveType LeaveType, string Reason) : IRequest<Result<Guid>>;
 
     public class CreateRequestRecordCommandHandler : IRequestHandler<CreateRequestRecordCommand, Result<Guid>>
     {
@@ -23,13 +22,11 @@ namespace PermitRequest.Application.Features.Commands
             _leaveRequestRepository = leaveRequestRepository;
         }
         public async Task<Result<Guid>> Handle(CreateRequestRecordCommand request, CancellationToken cancellationToken)
-        {
-            if (!Guid.TryParse(request.UserId, out Guid userId))
-                throw new ExceptionMessage("Id tipi Guid olmalıdır...");
+        {         
+          
+            var user = await _adUserRepository.FirstOrDefaultAsync(new AdUserSpec(request.UserId));
 
-            var user = await _adUserRepository.FirstOrDefaultAsync(new AdUserSpec(userId));
-
-            if (user == null)
+            if (user is null)
                 throw new ExceptionMessage("Kullanıcı bulunamadı..");          
 
             var leaveRequest = LeaveRequest.CreateFactory(user, request.StartDate, request.EndDate, request.LeaveType, request.Reason);

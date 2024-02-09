@@ -1,7 +1,6 @@
 ﻿using Ardalis.SharedKernel;
 using PermitRequest.Domain.Entities.Base;
 using PermitRequest.Domain.Enums;
-using PermitRequest.Domain.Events;
 
 namespace PermitRequest.Domain.Entities
 {
@@ -13,29 +12,33 @@ namespace PermitRequest.Domain.Entities
         public int TotalHours { get; set; }
         public int Year { get; set; }
         public IEnumerable<Notification> Notifications { get; set; }
-
-        private CumulativeLeaveRequest(LeaveType leaveTypeId, Guid userId, int totalHours, int year)
+        public static CumulativeLeaveRequest CreateFactory(CumulativeLeaveRequest? oldCumlativeEntity, LeaveRequest leaveEntity)
         {
-            LeaveTypeId = leaveTypeId;
-            UserId = userId;
-            TotalHours = totalHours;
-            Year = year;
-        }      
+            CumulativeLeaveRequest newCumlativeEntity;
 
-        public static CumulativeLeaveRequest CreateFactory(CumulativeLeaveRequest? oldEntity, Guid userId, LeaveType LeaveTypeId, int total, int year, Guid leaveRequestId)
-        {
-            CumulativeLeaveRequest entity;
+            var total = leaveEntity.BetweenDates.TotalWorkHours;
+            var userId = leaveEntity.CreatedById;
+            var leaveType = leaveEntity.LeaveType;
+            var year = leaveEntity.BetweenDates.Year;
 
-            if (oldEntity is null)
-                entity = new(LeaveTypeId, userId, total, year);
+            if (oldCumlativeEntity is null)
+                newCumlativeEntity = new()
+                {
+                    LeaveTypeId = leaveType,
+                    UserId = userId,
+                    Year = year,
+                    TotalHours = total                    
+                };              
             else
             {
-                entity = oldEntity;
-                entity.TotalHours += total;
+                newCumlativeEntity = oldCumlativeEntity;
+                newCumlativeEntity.SetTotalHours(total, "+");
             }
-            entity.RegisterDomainEvent(new NotificationCreatedEvent(entity, leaveRequestId));
+            
+            //newCumlativeEntity.RegisterDomainEvent(new NotificationCreatedEvent(newCumlativeEntity, leaveEntity));
 
-            return entity;
+            return newCumlativeEntity;
         }
+        public void SetTotalHours(int total, string @operator) => TotalHours += (@operator.Contains('+') ? total : -total);
     }
 }

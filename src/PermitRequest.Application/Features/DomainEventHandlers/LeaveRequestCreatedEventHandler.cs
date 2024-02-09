@@ -1,73 +1,51 @@
 ﻿using MediatR;
-using PermitRequest.Application.Concrete;
-using PermitRequest.Domain.Enums;
+using PermitRequest.Application.Features.Factories;
+using PermitRequest.Application.Specifications;
+using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Events;
-using PermitRequest.Domain.Extensions;
 using PermitRequest.Domain.Services;
-using PermitRequest.Infrastructure.EntityFramework.Repositories;
+using PermitRequest.Infrastructure.EntityFramework.Services;
 
 namespace PermitRequest.Application.Features.EventHandlers
 {
     public class LeaveRequestCreatedEventHandler : INotificationHandler<LeaveRequestCreatedEvent>
     {
 
-        private readonly ICumulativeLeaveRequestRepository _cumulativeLeaveRequestRepository;
-        private readonly ILeaveRequestRepository _leaveRequestRepository;
-
-        public LeaveRequestCreatedEventHandler(ICumulativeLeaveRequestRepository cumulativeLeaveRequestRepository, ILeaveRequestRepository leaveRequestRepository)
+        private readonly ICumulativeLeaveRequestRepository _cumulativeRepository;
+        private readonly ILeaveRequestRepository _leaveRepository;
+        private readonly IAdUserRepository _userRepository;
+        public LeaveRequestCreatedEventHandler(ICumulativeLeaveRequestRepository cumulativeRepository, ILeaveRequestRepository leaveRepository, IAdUserRepository userRepository)
         {
-            _cumulativeLeaveRequestRepository = cumulativeLeaveRequestRepository;
-            _leaveRequestRepository = leaveRequestRepository;
+            _cumulativeRepository = cumulativeRepository;
+            _leaveRepository = leaveRepository;
+            _userRepository = userRepository;
         }
-
         public async Task Handle(LeaveRequestCreatedEvent notification, CancellationToken cancellationToken)
         {
             var userEntity = notification.AdUser;
             var leaveEntity = notification.AdUser.LeaveRequests.FirstOrDefault();
 
-            static IWorkflowFactory CreateWorkflowFactory(UserType userType, LeaveType leaveType)
-            {
-                switch (userType)
-                {
-                    case UserType.WhiteCollarEmployee:
-                        return new WhiteCollarEmployeeWorkflowFactory();
-                    case UserType.BlueCollarEmployee when leaveType == LeaveType.AnnualLeave:
-                        return new BlueCollarEmployeeAnnualLeaveWorkflowFactory();
-                    case UserType.BlueCollarEmployee when leaveType == LeaveType.ExcusedAbsence:
-                        return new BlueCollarEmployeeExcusedAbsenceWorkflowFactory();
-                    case UserType.Manager:
-                        return new ManagerWorkflowFactory();
-                    default:
-                        throw new ExceptionMessage("WorkFlowFactory hata aldı!!");
+            var userAll = await _userRepository.ListAsync(cancellationToken);
+             
+            var resultFactory = WorkflowFactory.Workflows(userEntity.UserType, leaveEntity.LeaveType, userAll).Create(); 
 
-                }
-            }
+            leaveEntity.SetWorkflowStatus(resultFactory.Item1); 
+            leaveEntity.SetAssignedUserId(resultFactory.Item2);
 
-            var resultFactory = CreateWorkflowFactory(userEntity.UserType, leaveEntity.LeaveType).CreateWorkflow();
+            await _leaveRepository.SaveChangesAsync(cancellationToken);            
+                
+            var filter = new CumulativeLeaveSpec(leaveEntity);
 
-            leaveEntity.SetWorkFlow(resultFactory.Item1);
+            var cumulativeEntity = await _cumulativeRepository.SingleOrDefaultAsync(filter);
 
-            await _leaveRequestRepository.SaveChangesAsync();
+            var entity = CumulativeLeaveRequest.CreateFactory(cumulativeEntity, leaveEntity);
 
-
-            //var leaveRequestId = notification.LeaveRequest.Id;
-            //var userId = notification.LeaveRequest.CreatedById;
-            //var levaeType = notification.LeaveRequest.LeaveType;
-            //var year = notification.LeaveRequest.BetweenDates.Year;
-            //var total = notification.LeaveRequest.BetweenDates.TotalWorkHours;
-
-            //var filter = new CumulativeLeaveSpec(userId, levaeType, year);
-
-            //var exists = await _repository.SingleOrDefaultAsync(filter);
-
-            //var entity = CumulativeLeaveRequest.CreateFactory(exists, userId, levaeType, total, year, leaveRequestId);
-
-            //if (exists is not null)
-            //    await _repository.UpdateAsync(entity);
-            //else
-            //    await _repository.AddAsync(entity);
+            if (cumulativeEntity is not null)
+                await _cumulativeRepository.UpdateAsync(entity);
+            else
+                await _cumulativeRepository.AddAsync(entity);
 
             await Task.CompletedTask;
-        }
+        }   
     }
 }

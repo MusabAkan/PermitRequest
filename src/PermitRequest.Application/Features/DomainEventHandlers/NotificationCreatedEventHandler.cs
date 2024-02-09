@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using PermitRequest.Application.Features.Factories;
+using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Events;
 using PermitRequest.Domain.Services;
@@ -24,7 +24,7 @@ namespace PermitRequest.Application.Features.EventHandlers
 
             var leaveEntity = cumulativetEntity.User.LeaveRequests.FirstOrDefault();
 
-            var notificationEntity = NotificationRequestFactory.Create(cumulativetEntity.Id, cumulativetEntity.UserId);
+            var notificationEntity = Notification.CreateFactory(cumulativetEntity.Id, cumulativetEntity.UserId);
 
             var totalDayCurrrent = ((int)cumulativetEntity.TotalHours / 8);
 

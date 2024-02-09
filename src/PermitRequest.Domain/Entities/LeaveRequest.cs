@@ -39,10 +39,8 @@ namespace PermitRequest.Domain.Entities
             return leaveRequest;
         }
 
-        public void SetWorkFlow(Workflow type)
-        {
-            WorkflowStatus = type;
-        }
+        public void SetAssignedUserId(Guid? userId) => AssignedUserId = userId;
+        public void SetWorkflowStatus(Workflow type) => WorkflowStatus = type;
     }
 
 
