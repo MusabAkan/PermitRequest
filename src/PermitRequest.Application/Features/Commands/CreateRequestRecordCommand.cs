@@ -8,7 +8,6 @@ using PermitRequest.Domain.Services;
 using PermitRequest.Infrastructure.EntityFramework.Services;
 namespace PermitRequest.Application.Features.Commands
 {
-
     public record CreateRequestRecordCommand(Guid UserId, DateTime StartDate, DateTime EndDate, LeaveType LeaveType, string Reason) : IRequest<Result<Guid>>;
 
     public class CreateRequestRecordCommandHandler : IRequestHandler<CreateRequestRecordCommand, Result<Guid>>

@@ -9,7 +9,6 @@ namespace PermitRequest.Domain.Entities
 {
     public class LeaveRequest : BaseEntity, IAggregateRoot
     {
-
         public long FormNumber { get; set; }
         public string RequestNumber { get; set; }
         public LeaveType LeaveType { get; set; }

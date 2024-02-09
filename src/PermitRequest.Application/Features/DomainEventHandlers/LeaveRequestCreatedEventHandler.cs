@@ -23,6 +23,7 @@ namespace PermitRequest.Application.Features.EventHandlers
         public async Task Handle(LeaveRequestCreatedEvent notification, CancellationToken cancellationToken)
         {
             var userEntity = notification.AdUser;
+
             var leaveEntity = notification.AdUser.LeaveRequests.FirstOrDefault();
 
             var userAll = await _userRepository.ListAsync(cancellationToken);
