@@ -1,12 +1,12 @@
 ﻿using MediatR;
-using PermitRequest.Application.Features.Factories;
+using PermitRequest.Application.Factories;
 using PermitRequest.Application.Specifications;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Events;
 using PermitRequest.Domain.Services;
 using PermitRequest.Infrastructure.EntityFramework.Services;
 
-namespace PermitRequest.Application.Features.EventHandlers
+namespace PermitRequest.Application.DomainEventHandlers
 {
     public class LeaveRequestCreatedEventHandler : INotificationHandler<LeaveRequestCreatedEvent>
     {
@@ -27,26 +27,26 @@ namespace PermitRequest.Application.Features.EventHandlers
             var leaveEntity = notification.AdUser.LeaveRequests.FirstOrDefault();
 
             var userAll = await _userRepository.ListAsync(cancellationToken);
-             
-            var resultFactory = WorkflowFactory.Workflows(userEntity.UserType, leaveEntity.LeaveType, userAll).Create(); 
 
-            leaveEntity.SetWorkflowStatus(resultFactory.Item1); 
+            var resultFactory = WorkflowFactory.Workflows(userEntity.UserType, leaveEntity.LeaveType, userAll).Create();
+
+            leaveEntity.SetWorkflowStatus(resultFactory.Item1);
             leaveEntity.SetAssignedUserId(resultFactory.Item2);
 
-            await _leaveRepository.SaveChangesAsync(cancellationToken);            
-                
+            await _leaveRepository.SaveChangesAsync(cancellationToken);
+
             var filter = new CumulativeLeaveSpec(leaveEntity);
 
             var cumulativeEntity = await _cumulativeRepository.SingleOrDefaultAsync(filter);
 
             var entity = CumulativeLeaveRequest.CreateFactory(cumulativeEntity, leaveEntity);
 
-            if (cumulativeEntity is not null)
+            if (cumulativeEntity != null)
                 await _cumulativeRepository.UpdateAsync(entity);
             else
                 await _cumulativeRepository.AddAsync(entity);
 
             await Task.CompletedTask;
-        }   
+        }
     }
 }

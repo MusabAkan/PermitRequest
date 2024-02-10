@@ -3,9 +3,8 @@ using PermitRequest.Domain.Entities;
 
 namespace PermitRequest.Domain.Events
 {
-    public class NotificationCreatedEvent(CumulativeLeaveRequest cumulativeLeaveRequest, LeaveRequest leaveRequest ) : DomainEventBase
-    {
-        public CumulativeLeaveRequest CumulativeLeaveRequest = cumulativeLeaveRequest;
+    public class NotificationCreatedEvent(LeaveRequest leaveRequest ) : DomainEventBase
+    {        
         public LeaveRequest LeaveRequest = leaveRequest;
     }
 }

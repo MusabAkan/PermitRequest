@@ -7,7 +7,7 @@ namespace PermitRequest.Application.Specifications
     {
         public CumulativeLeaveSpec(LeaveRequest leaveRequest)
         {
-            Query.Where(i => i.UserId == leaveRequest.CreatedById && i.LeaveTypeId == leaveRequest.LeaveType && leaveRequest.BetweenDates.StartDate.Year == i.Year);
+            Query.Where(i => i.UserId == leaveRequest.CreatedById && i.LeaveType == leaveRequest.LeaveType && leaveRequest.BetweenDates.StartDate.Year == i.Year);
         }
     }
 }

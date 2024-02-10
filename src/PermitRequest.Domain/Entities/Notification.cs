@@ -1,5 +1,5 @@
 ﻿using Ardalis.SharedKernel;
-using PermitRequest.Domain.Entities.Base;
+using PermitRequest.Domain.Common;
 
 namespace PermitRequest.Domain.Entities
 {
@@ -17,13 +17,13 @@ namespace PermitRequest.Domain.Entities
         public int Year => CreateDate.Year;
         /****************   Ingore  *****************/
 
-        public static Notification CreateFactory(Guid cumulativeLeaveRequestId, Guid userId)
+        public static Notification CreateFactory(Guid cumulativeLeaveRequestId, Guid userId, string message)
         {
             Notification entity = new()
             {
-                CreateDate = DateTime.Now,
                 CumulativeLeaveRequestId = cumulativeLeaveRequestId,
                 UserId = userId,
+                Message = message
             };
             return entity;
         }

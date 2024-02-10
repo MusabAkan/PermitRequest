@@ -1,4 +1,4 @@
 ﻿namespace PermitRequest.Domain.DTOs
 {
-    public record RequestRecordDto(string UserId, string StartDate, string EndDate, int LeaveType, string reason);
+    public record RecordRequestDto(string userId, string startDate, string endDate, int leaveType, string reason);
 }

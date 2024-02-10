@@ -9,6 +9,7 @@ namespace PermitRequest.Application.Specifications
         {
             Query.
                 Include(i => i.CreatedBy).
+                OrderByDescending(i => i.CreatedAt).
                 Skip(skip).Take(take);
 
         }
@@ -17,6 +18,7 @@ namespace PermitRequest.Application.Specifications
             Query.
               Include(i => i.CreatedBy).
               Skip(skip).Take(take).
+              OrderByDescending(i => i.CreatedAt).
               Where(i => i.CreatedById == userId);
         }
     }

@@ -1,14 +1,14 @@
 ﻿using Ardalis.SharedKernel;
 using Microsoft.EntityFrameworkCore;
+using PermitRequest.Domain.Common;
 using PermitRequest.Domain.Entities;
-using PermitRequest.Domain.Entities.Base;
 using System.Reflection;
 namespace PermitRequest.Infrastructure.Contexts
 {
     public class PermitRequestContext : DbContext
     {
-        private readonly IDomainEventDispatcher? _dispatcher;
-        public PermitRequestContext(DbContextOptions<PermitRequestContext> options, IDomainEventDispatcher? dispatcher) : base(options)
+        private readonly IDomainEventDispatcher _dispatcher;
+        public PermitRequestContext(DbContextOptions<PermitRequestContext> options, IDomainEventDispatcher dispatcher) : base(options)
         {
             _dispatcher = dispatcher;
         }
@@ -24,19 +24,35 @@ namespace PermitRequest.Infrastructure.Contexts
         }
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            int result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            await SetTimestamps();
 
-            if (_dispatcher == null) return result;
+            int result = await base.SaveChangesAsync(cancellationToken);           
 
             var entities = ChangeTracker.Entries<BaseEntity>()
                 .Select(e => e.Entity)
                 .Where(e => e.DomainEvents.Any()).ToList();
 
-            await _dispatcher.DispatchAndClearEvents(entities);
+            if(entities.Any())
+                await _dispatcher.DispatchAndClearEvents(entities);
 
             return result;
         }
 
+        private async Task SetTimestamps()
+        {
+            var entities = ChangeTracker.Entries()
+             .Where(x => x.Entity is LeaveRequest && (x.State == EntityState.Added || x.State == EntityState.Modified));
+
+            foreach (var entity in entities)
+            {
+                var now = DateTime.Now;
+
+                if (entity.State == EntityState.Added)
+                    ((LeaveRequest)entity.Entity).CreatedAt = now;
+
+                ((LeaveRequest)entity.Entity).LastModifiedAt = now;
+            }
+        }
     }
 
 }

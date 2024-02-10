@@ -9,8 +9,8 @@ namespace PermitRequest.Application.Specifications
         {
             Query.
                 Include(i => i.User).
+                OrderByDescending(i => i.CreateDate).
                 Skip(skip).Take(take);
-
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace PermitRequest.Domain.DTOs
 {
-    public class CumulativeLeaveRequestDto
+    public class CumulativeResponseDto
     {
         public string FullName { get; set; }
         public string LeaveType { get; set; }

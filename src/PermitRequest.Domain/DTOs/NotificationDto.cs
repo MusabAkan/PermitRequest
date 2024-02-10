@@ -1,6 +1,6 @@
 ﻿namespace PermissionRequestApp.Domain.Common.Dtos
 {
-    public class NotificationDto
+    public class NotificationResponseDto
     {
         public string FullName { get; set; }
         public int Year { get; set; }

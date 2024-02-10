@@ -13,6 +13,8 @@ namespace PermitRequest.Infrastructure.Configurations
             builder.Ignore(i => i.CreateDateStr);
             builder.Ignore(i => i.Year);
 
+            builder.Property(e => e.CreateDate)
+              .HasDefaultValueSql("GETDATE()");
         }
     }
 }

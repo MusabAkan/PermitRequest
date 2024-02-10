@@ -1,6 +1,6 @@
 ﻿namespace PermitRequest.Domain.DTOs
 {
-    public class LeaveRequestDto
+    public class LeaveResponsetDto
     {
         public string ReqFormNumber { get; set; }
         public string FullName { get; set; }

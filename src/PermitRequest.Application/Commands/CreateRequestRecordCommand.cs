@@ -6,7 +6,7 @@ using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Extensions;
 using PermitRequest.Domain.Services;
 using PermitRequest.Infrastructure.EntityFramework.Services;
-namespace PermitRequest.Application.Features.Commands
+namespace PermitRequest.Application.Commands
 {
     public record CreateRequestRecordCommand(Guid UserId, DateTime StartDate, DateTime EndDate, LeaveType LeaveType, string Reason) : IRequest<Result<Guid>>;
 
@@ -21,19 +21,17 @@ namespace PermitRequest.Application.Features.Commands
             _leaveRequestRepository = leaveRequestRepository;
         }
         public async Task<Result<Guid>> Handle(CreateRequestRecordCommand request, CancellationToken cancellationToken)
-        {         
-          
+        {
             var user = await _adUserRepository.FirstOrDefaultAsync(new AdUserSpec(request.UserId));
 
-            if (user is null)
-                throw new ExceptionMessage("Kullanıcı bulunamadı..");          
+            if (user == null)
+                throw new ExceptionMessage("Kullanıcı bulunamadı..");
 
             var leaveRequest = LeaveRequest.CreateFactory(user, request.StartDate, request.EndDate, request.LeaveType, request.Reason);
 
             await _leaveRequestRepository.AddAsync(leaveRequest);
 
             return Result.Success(leaveRequest.Id, "Tüm işlemler tamamlanmıştır.");
-
         }
     }
 }

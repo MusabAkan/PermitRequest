@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PermitRequest.Application.Features.Commands;
-using PermitRequest.Application.Features.Queries;
+using PermitRequest.Application.Commands;
+using PermitRequest.Application.Queries;
 using PermitRequest.Domain.DTOs;
 
 namespace PermitRequest.WebApi.Controllers
@@ -22,7 +22,7 @@ namespace PermitRequest.WebApi.Controllers
 
         [HttpPost]
         [Route($"api/{nameof(CreateRequestRecord)}")]
-        public async Task<ActionResult> CreateRequestRecord([FromBody] RequestRecordDto request)
+        public async Task<ActionResult> CreateRequestRecord([FromBody] RecordRequestDto request)
         {
 
             var command = _mapper.Map<CreateRequestRecordCommand>(request);
@@ -32,7 +32,7 @@ namespace PermitRequest.WebApi.Controllers
 
         [HttpPost]
         [Route($"api/{nameof(GetListLeaveRequest)}")]
-        public async Task<ActionResult> GetListLeaveRequest(GetListDto request)
+        public async Task<ActionResult> GetListLeaveRequest([FromBody] GetListRequestDto request)
         {
             var command = _mapper.Map<GetListLeaveRequestQuery>(request);
             var result = await _mediator.Send(command);
@@ -41,7 +41,7 @@ namespace PermitRequest.WebApi.Controllers
 
         [HttpPost]
         [Route($"api/{nameof(GetListLeaveRequestById)}")]
-        public async Task<ActionResult> GetListLeaveRequestById(GetByIdDto request)
+        public async Task<ActionResult> GetListLeaveRequestById([FromBody] GetByIdRequestDto request)
         {
             var command = _mapper.Map<GetByIdLeaveRequestQuery>(request);
             var result = await _mediator.Send(command);
@@ -50,7 +50,7 @@ namespace PermitRequest.WebApi.Controllers
 
         [HttpPost]
         [Route($"api/{nameof(GetListCumulativeLeaveRequest)}")]
-        public async Task<ActionResult> GetListCumulativeLeaveRequest(GetListDto request)
+        public async Task<ActionResult> GetListCumulativeLeaveRequest([FromBody] GetCumulativeLeaveRequestDto request)
         {
             var command = _mapper.Map<GetListCumulativeLeaveRequestQuery>(request);
             var result = await _mediator.Send(command);
@@ -59,7 +59,7 @@ namespace PermitRequest.WebApi.Controllers
 
         [HttpPost]
         [Route($"api/{nameof(GetListNotificationRequest)}")]
-        public async Task<ActionResult> GetListNotificationRequest(GetListDto request)
+        public async Task<ActionResult> GetListNotificationRequest([FromBody] GetListRequestDto request)
         {
             var command = _mapper.Map<GetListNotificationRequestQuery>(request);
             var result = await _mediator.Send(command);

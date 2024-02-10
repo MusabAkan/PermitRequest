@@ -3,13 +3,13 @@ using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Extensions;
 
-namespace PermitRequest.Application.Features.Factories
+namespace PermitRequest.Application.Factories
 {
     public class WorkflowFactory
     {
         internal interface IWorkflowFactory
         {
-            (Workflow, Guid?)  Create();
+            (Workflow, Guid?) Create();
         }
         private class BlueCollarEmployeeAnnualLeaveWorkflowFactory(IEnumerable<AdUser> Users) : IWorkflowFactory
         {

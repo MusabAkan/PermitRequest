@@ -27,15 +27,19 @@ namespace PermitRequest.Domain.ValueObjets
             }
         }
         public BetweenDate(DateTime startDate, DateTime endDate)
-        {
-            if (startDate.Date >= endDate.Date)
-                throw new ExceptionMessage("Başlangıç tarih bitiş tarihden büyük yada eşit olmamalıdır..");
+        {             
 
-            if (startDate.Date < DateTime.Now.Date)
-                throw new ExceptionMessage("Başlangıç  tarihi bugünden itibaren olmalıdır...");
+            if (startDate > endDate)
+                throw new ExceptionMessage("Başlangıç tarih bitiş tarihden büyük olmamalıdır..");
 
-            StartDate = startDate;
-            EndDate = endDate;
+            if (startDate < DateTime.Now)
+                throw new ExceptionMessage("Başlangıç tarihi bugünden itibaren olmalıdır...");
+
+            StartDate = startDate.Date;
+            EndDate = endDate.Date;
+
+            if (TotalWorkHours == default)
+                throw new ExceptionMessage("Pazar günleri hesaplanmaz");
         }
         protected override IEnumerable<object> GetEqualityComponents()
         {

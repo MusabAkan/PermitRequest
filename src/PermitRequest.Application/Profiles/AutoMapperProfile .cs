@@ -1,45 +1,45 @@
 ﻿using AutoMapper;
 using PermissionRequestApp.Domain.Common.Dtos;
-using PermitRequest.Application.Features.Commands;
-using PermitRequest.Application.Features.Queries;
+using PermitRequest.Application.Commands;
+using PermitRequest.Application.Queries;
 using PermitRequest.Domain.DTOs;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
 
-namespace PermitRequest.Application.Features.Profiles
+namespace PermitRequest.Application.Profiles
 {
     public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
         {
-            CreateMap<RequestRecordDto, CreateRequestRecordCommand>()
-                .ConstructUsing(src => new CreateRequestRecordCommand(Guid.Parse(src.UserId), DateTime.Parse(src.StartDate), DateTime.Parse(src.EndDate), (LeaveType)src.LeaveType, src.reason));
+            CreateMap<RecordRequestDto, CreateRequestRecordCommand>()
+                .ConstructUsing(src => new CreateRequestRecordCommand(Guid.Parse(src.userId), DateTime.Parse(src.startDate), DateTime.Parse(src.endDate), (LeaveType)src.leaveType, src.reason));
 
-            CreateMap<GetListDto, GetListLeaveRequestQuery>()
+            CreateMap<GetListRequestDto, GetListLeaveRequestQuery>()
                 .ConstructUsing(src => new GetListLeaveRequestQuery(src.skip, src.take));
 
-            CreateMap<GetListDto, GetListNotificationRequestQuery>()
+            CreateMap<GetListRequestDto, GetListNotificationRequestQuery>()
                .ConstructUsing(src => new GetListNotificationRequestQuery(src.skip, src.take));
 
-            CreateMap<GetListDto, GetListCumulativeLeaveRequestQuery>()
-              .ConstructUsing(src => new GetListCumulativeLeaveRequestQuery(src.skip, src.take));
+            CreateMap<GetCumulativeLeaveRequestDto, GetListCumulativeLeaveRequestQuery>()
+              .ConstructUsing(src => new GetListCumulativeLeaveRequestQuery(src.skip, src.take, Guid.Parse(src.userId),  src.year, (LeaveType)src.leaveType ));
 
-            CreateMap<GetByIdDto, GetByIdLeaveRequestQuery>()
+            CreateMap<GetByIdRequestDto, GetByIdLeaveRequestQuery>()
                 .ConstructUsing(src => new GetByIdLeaveRequestQuery(src.skip, src.take, src.userId));
 
-            CreateMap<CumulativeLeaveRequest, CumulativeLeaveRequestDto>()
+            CreateMap<CumulativeLeaveRequest, CumulativeResponseDto>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName.ToString()))
                 .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Year))
-                .ForMember(dest => dest.LeaveType, opt => opt.MapFrom(src => src.LeaveTypeId))
+                .ForMember(dest => dest.LeaveType, opt => opt.MapFrom(src => src.LeaveType))
                 .ForMember(dest => dest.TotalHour, opt => opt.MapFrom(src => src.TotalHours));
 
-            CreateMap<Notification, NotificationDto>()
+            CreateMap<Notification, NotificationResponseDto>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName.ToString()))
                 .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Year))
                 .ForMember(dest => dest.CreateDate, opt => opt.MapFrom(src => src.CreateDateStr))
                 .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src.Message));
 
-            CreateMap<LeaveRequest, LeaveRequestDto>()
+            CreateMap<LeaveRequest, LeaveResponsetDto>()
               .ForMember(dest => dest.ReqFormNumber, opt => opt.MapFrom(src => src.RequestNumber))
               .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.CreatedBy.FullName.ToString()))
               .ForMember(dest => dest.LeaveType, opt => opt.MapFrom(src => src.LeaveType))

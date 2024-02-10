@@ -1,5 +1,5 @@
 ﻿using Ardalis.SharedKernel;
-using PermitRequest.Domain.Entities.Base;
+using PermitRequest.Domain.Common;
 using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.ValueObjets;
 namespace PermitRequest.Domain.Entities

@@ -2,8 +2,7 @@
 using Ardalis.SharedKernel;
 using PermitRequest.Domain.Events;
 using PermitRequest.Domain.ValueObjets;
-using PermitRequest.Domain.Entities.Base;
-using PermitRequest.Domain.Services;
+using PermitRequest.Domain.Common;
 
 namespace PermitRequest.Domain.Entities
 {
@@ -19,7 +18,7 @@ namespace PermitRequest.Domain.Entities
         public virtual AdUser CreatedBy { get; set; }
         public Guid CreatedById { get; set; }
         public DateTime CreatedAt { get; set; }
-        public string CreatedAtStr => CreatedAt.ToString("dd.MM.yyyy");
+        public string CreatedAtStr => CreatedAt.ToString("dd.MM.yyyy HH:ss");
         public Guid? LastModifiedById { get; set; }
         public DateTime? LastModifiedAt { get; set; }
 
@@ -39,6 +38,7 @@ namespace PermitRequest.Domain.Entities
         }
 
         public void SetAssignedUserId(Guid? userId) => AssignedUserId = userId;
+        public void SetLastModifiedById(Guid? userId) => LastModifiedById = userId;
         public void SetWorkflowStatus(Workflow type) => WorkflowStatus = type;
     }
 

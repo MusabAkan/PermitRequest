@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using PermitRequest.Domain.Entities;
-using PermitRequest.Domain.ValueObjets;
-
 namespace PermitRequest.Infrastructure.Configurations
 {
     internal class LeaveRequestConfiguration : IEntityTypeConfiguration<LeaveRequest>

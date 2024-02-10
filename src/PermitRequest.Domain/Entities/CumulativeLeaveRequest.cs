@@ -1,5 +1,5 @@
 ﻿using Ardalis.SharedKernel;
-using PermitRequest.Domain.Entities.Base;
+using PermitRequest.Domain.Common;
 using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Events;
 
@@ -7,7 +7,7 @@ namespace PermitRequest.Domain.Entities
 {
     public class CumulativeLeaveRequest : BaseEntity, IAggregateRoot
     {
-        public LeaveType LeaveTypeId { get; set; }
+        public LeaveType LeaveType { get; set; }
         public virtual AdUser User { get; set; }
         public Guid UserId { get; set; }
         public int TotalHours { get; set; }
@@ -22,10 +22,10 @@ namespace PermitRequest.Domain.Entities
             var leaveType = leaveEntity.LeaveType;
             var year = leaveEntity.BetweenDates.Year;
 
-            if (oldCumlativeEntity is null)
+            if (oldCumlativeEntity == null)
                 newCumlativeEntity = new()
                 {
-                    LeaveTypeId = leaveType,
+                    LeaveType = leaveType,
                     UserId = userId,
                     Year = year,
                     TotalHours = total
@@ -36,12 +36,10 @@ namespace PermitRequest.Domain.Entities
                 newCumlativeEntity.SetTotalHours(total);
             }
 
-            newCumlativeEntity.RegisterDomainEvent(new NotificationCreatedEvent(newCumlativeEntity, leaveEntity));
+            newCumlativeEntity.RegisterDomainEvent(new NotificationCreatedEvent(leaveEntity));
 
             return newCumlativeEntity;
         }
         public void SetTotalHours(int total, string value = "+") => TotalHours += (value.Contains('+') ? total : -total);
-        public int TotalDayWork => ((int)TotalHours / 8);
-        public int Limit => LeaveTypeId == LeaveType.AnnualLeave ? 14 : 5;
     }
 }

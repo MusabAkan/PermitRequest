@@ -1,4 +1,4 @@
 ﻿namespace PermitRequest.Domain.DTOs
 {
-    public record GetListDto(int skip, int take);
+    public record GetListRequestDto(int skip, int take);
 }
