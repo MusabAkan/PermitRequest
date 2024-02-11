@@ -7,8 +7,6 @@ namespace PermitRequest.Infrastructure.EntityFramework.Repositories
 {
     public class EfNotificationRepository : RepositoryBase<Notification>, INotificationRepository
     {
-        public EfNotificationRepository(PermitRequestContext dbContext) : base(dbContext)
-        {
-        }
+        public EfNotificationRepository(PermitRequestContext dbContext) : base(dbContext) { }
     }
 }

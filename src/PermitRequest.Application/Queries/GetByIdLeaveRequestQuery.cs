@@ -8,12 +8,12 @@ using PermitRequest.Domain.Services;
 
 namespace PermitRequest.Application.Queries
 {
-    public record GetByIdLeaveRequestQuery(int skip, int take, Guid userid) : IQuery<Result<IEnumerable<LeaveResponsetDto>>>;
+    public record GetByIdLeaveRequestQuery(int skip, int take, Guid userid) : IQuery<Result<List<LeaveResponsetDto>>>;
 
-    public class GetByIdLeaveRequestQueryHandler(ILeaveRequestRepository _repository, IMapper _mapper) : IQueryHandler<GetByIdLeaveRequestQuery, Result<IEnumerable<LeaveResponsetDto>>>
+    public class GetByIdLeaveRequestQueryHandler(ILeaveRequestRepository _repository, IMapper _mapper) : IQueryHandler<GetByIdLeaveRequestQuery, Result<List<LeaveResponsetDto>>>
     {
 
-        public async Task<Result<IEnumerable<LeaveResponsetDto>>> Handle(GetByIdLeaveRequestQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<LeaveResponsetDto>>> Handle(GetByIdLeaveRequestQuery request, CancellationToken cancellationToken)
         {
 
             var filterSpec = new LeaveRequestFilterPaginatedSpec(request.skip, request.take, request.userid);
@@ -25,7 +25,9 @@ namespace PermitRequest.Application.Queries
 
             var leaveRequests = _mapper.Map<List<LeaveResponsetDto>>(data);
 
-            return leaveRequests;
+            var count = "Total Data : " + leaveRequests.Count;
+
+            return Result.Success(leaveRequests, count);
         }
 
     }

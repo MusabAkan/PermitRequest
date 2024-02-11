@@ -21,6 +21,15 @@ namespace PermitRequest.WebApi.Controllers
         }
 
         [HttpPost]
+        [Route($"api/{nameof(GetListUser)}")]
+        public async Task<ActionResult> GetListUser([FromBody] GetListRequestDto request)
+        {
+            var command = _mapper.Map<GetListUserQuery>(request);
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpPost]
         [Route($"api/{nameof(CreateRequestRecord)}")]
         public async Task<ActionResult> CreateRequestRecord([FromBody] RecordRequestDto request)
         {

@@ -8,10 +8,7 @@ namespace PermitRequest.Infrastructure.Contexts
     public class PermitRequestContext : DbContext
     {
         private readonly IDomainEventDispatcher _dispatcher;
-        public PermitRequestContext(DbContextOptions<PermitRequestContext> options, IDomainEventDispatcher dispatcher) : base(options)
-        {
-            _dispatcher = dispatcher;
-        }
+        public PermitRequestContext(DbContextOptions<PermitRequestContext> options, IDomainEventDispatcher dispatcher) : base(options) => _dispatcher = dispatcher;
         public DbSet<AdUser> AdUsers { get; set; }
         public DbSet<CumulativeLeaveRequest> CumulativeLeaveRequests { get; set; }
         public DbSet<LeaveRequest> LeaveRequests { get; set; }

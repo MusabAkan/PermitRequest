@@ -8,11 +8,11 @@ using PermitRequest.Domain.Services;
 
 namespace PermitRequest.Application.Queries
 {
-    public record GetListNotificationRequestQuery(int skip, int take) : IQuery<Result<IEnumerable<NotificationResponseDto>>>;
+    public record GetListNotificationRequestQuery(int skip, int take) : IQuery<Result<List<NotificationResponseDto>>>;
 
-    public class GetListNotificationRequestQueryHandler(INotificationRepository _repository, IMapper _mapper) : IQueryHandler<GetListNotificationRequestQuery, Result<IEnumerable<NotificationResponseDto>>>
+    public class GetListNotificationRequestQueryHandler(INotificationRepository _repository, IMapper _mapper) : IQueryHandler<GetListNotificationRequestQuery, Result<List<NotificationResponseDto>>>
     {
-        public async Task<Result<IEnumerable<NotificationResponseDto>>> Handle(GetListNotificationRequestQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<NotificationResponseDto>>> Handle(GetListNotificationRequestQuery request, CancellationToken cancellationToken)
         {
 
             var filterSpec = new NotificationFilterPaginatedSpec(request.skip, request.take);
@@ -22,9 +22,11 @@ namespace PermitRequest.Application.Queries
             if (data == null || data.Count == default)
                 throw new ExceptionMessage("Veri yok!!");
 
-            var notifications = _mapper.Map<List<NotificationResponseDto>>(data);
+            var notifications = _mapper.Map<List<NotificationResponseDto>>(data);            
 
-            return notifications;
+            var count = "Total Data : " + notifications.Count;
+
+            return Result.Success(notifications, count);             
         }
     }
 }

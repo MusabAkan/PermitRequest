@@ -9,11 +9,11 @@ using PermitRequest.Domain.Services;
 
 namespace PermitRequest.Application.Queries
 {
-    public record GetListCumulativeLeaveRequestQuery(int skip, int take, Guid userId, int? year,LeaveType? leaveType) : IQuery<Result<IEnumerable<CumulativeResponseDto>>>;  
+    public record GetListCumulativeLeaveRequestQuery(int skip, int take, Guid userId, int? year,LeaveType? leaveType) : IQuery<Result<List<CumulativeResponseDto>>>;  
 
-    public class GetListCumulativeLeaveRequestQueryHandler(ICumulativeLeaveRequestRepository _repository, IMapper _mapper) : IQueryHandler<GetListCumulativeLeaveRequestQuery, Result<IEnumerable<CumulativeResponseDto>>>
+    public class GetListCumulativeLeaveRequestQueryHandler(ICumulativeLeaveRequestRepository _repository, IMapper _mapper) : IQueryHandler<GetListCumulativeLeaveRequestQuery, Result<List<CumulativeResponseDto>>>
     {
-        public async Task<Result<IEnumerable<CumulativeResponseDto>>> Handle(GetListCumulativeLeaveRequestQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<CumulativeResponseDto>>> Handle(GetListCumulativeLeaveRequestQuery request, CancellationToken cancellationToken)
         {
 
             CumulativeLeaveRequestFilterPaginatedSpec filterSpec;
@@ -35,9 +35,11 @@ namespace PermitRequest.Application.Queries
             if (data == null || data.Count == default)
                 throw new ExceptionMessage("Veri yok!!");
 
-            var cumulativeLeaves = _mapper.Map<List<CumulativeResponseDto>>(data);
+            var cumulativeLeaves = _mapper.Map<List<CumulativeResponseDto>>(data);           
 
-            return cumulativeLeaves;
+            var count = "Total Data : " + cumulativeLeaves.Count;
+
+            return Result.Success(cumulativeLeaves, count);
         }
     }
 }

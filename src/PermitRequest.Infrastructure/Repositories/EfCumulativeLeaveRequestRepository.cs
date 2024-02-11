@@ -7,8 +7,6 @@ namespace PermitRequest.Infrastructure.EntityFramework.Repositories
 {
     public class EfCumulativeLeaveRequestRepository : RepositoryBase<CumulativeLeaveRequest>, ICumulativeLeaveRequestRepository
     {
-        public EfCumulativeLeaveRequestRepository(PermitRequestContext dbContext) : base(dbContext)
-        {
-        }
+        public EfCumulativeLeaveRequestRepository(PermitRequestContext dbContext) : base(dbContext) { }
     }
 }

@@ -18,6 +18,9 @@ namespace PermitRequest.Application.Profiles
             CreateMap<GetListRequestDto, GetListLeaveRequestQuery>()
                 .ConstructUsing(src => new GetListLeaveRequestQuery(src.skip, src.take));
 
+            CreateMap<GetListRequestDto, GetListUserQuery>()
+                .ConstructUsing(src => new GetListUserQuery(src.skip, src.take));
+
             CreateMap<GetListRequestDto, GetListNotificationRequestQuery>()
                .ConstructUsing(src => new GetListNotificationRequestQuery(src.skip, src.take));
 
@@ -26,6 +29,10 @@ namespace PermitRequest.Application.Profiles
 
             CreateMap<GetByIdRequestDto, GetByIdLeaveRequestQuery>()
                 .ConstructUsing(src => new GetByIdLeaveRequestQuery(src.skip, src.take, src.userId));
+
+            CreateMap<AdUser, UserDto>()
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName.ToString()))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
 
             CreateMap<CumulativeLeaveRequest, CumulativeResponseDto>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName.ToString()))

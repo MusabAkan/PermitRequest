@@ -7,8 +7,6 @@ namespace PermitRequest.Infrastructure.Repositories
 {
     public class EfAdUserRepository : RepositoryBase<AdUser>, IAdUserRepository
     {
-        public EfAdUserRepository(PermitRequestContext dbContext) : base(dbContext)
-        {
-        }
+        public EfAdUserRepository(PermitRequestContext dbContext) : base(dbContext) { }
     }
 }
