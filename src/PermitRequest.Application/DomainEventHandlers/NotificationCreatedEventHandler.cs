@@ -1,17 +1,17 @@
-﻿using MediatR;
+﻿using Ardalis.SharedKernel;
+using MediatR;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.Events;
-using PermitRequest.Domain.Services;
+
 namespace PermitRequest.Application.DomainEventHandlers
 {
     public class NotificationCreatedEventHandler : INotificationHandler<NotificationCreatedEvent>
     {
-
-        private readonly INotificationRepository _notificationRepository;
-        private readonly ILeaveRequestRepository _leaveRequestRepository;
-        private readonly ICumulativeLeaveRequestRepository _cumulativeRepository;
-        public NotificationCreatedEventHandler(INotificationRepository notificationRepository, ILeaveRequestRepository leaveRequestRepository, ICumulativeLeaveRequestRepository cumulativeRepository)
+        private readonly IRepository<Notification> _notificationRepository;
+        private readonly IRepository<LeaveRequest> _leaveRequestRepository;
+        private readonly IRepository<CumulativeLeaveRequest> _cumulativeRepository;
+        public NotificationCreatedEventHandler(IRepository<Notification> notificationRepository, IRepository<LeaveRequest> leaveRequestRepository, IRepository<CumulativeLeaveRequest> cumulativeRepository)
         {
             _notificationRepository = notificationRepository;
             _leaveRequestRepository = leaveRequestRepository;

@@ -36,7 +36,6 @@ namespace PermitRequest.Domain.Entities
 
             return leaveRequest;
         }
-
         public void SetAssignedUserId(Guid? userId) => AssignedUserId = userId;
         public void SetLastModifiedById(Guid? userId) => LastModifiedById = userId;
         public void SetWorkflowStatus(Workflow type) => WorkflowStatus = type;

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PermitRequest.Domain.Common;
 using PermitRequest.Domain.Entities;
 using System.Reflection;
+
 namespace PermitRequest.Infrastructure.Contexts
 {
     public class PermitRequestContext : DbContext

@@ -1,5 +1,6 @@
 ﻿using Ardalis.Specification;
 using PermitRequest.Domain.Entities;
+
 namespace PermitRequest.Application.Specifications
 {
     internal class UsertFilterPaginatedSpec : Specification<AdUser>

@@ -1,6 +1,5 @@
 ﻿using Ardalis.SharedKernel;
-using PermitRequest.Domain.Extensions;
-
+using PermitRequest.Domain.Exceptions;
 namespace PermitRequest.Domain.ValueObjets
 {
     public class BetweenDate : ValueObject
@@ -32,7 +31,7 @@ namespace PermitRequest.Domain.ValueObjets
             if (startDate > endDate)
                 throw new ExceptionMessage("Başlangıç tarih bitiş tarihden büyük olmamalıdır..");
 
-            if (startDate < DateTime.Now)
+            if (startDate < DateTime.Now.Date)
                 throw new ExceptionMessage("Başlangıç tarihi bugünden itibaren olmalıdır...");
 
             StartDate = startDate.Date;

@@ -1,7 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.SharedKernel;
-using PermitRequest.Domain.Extensions;
-
+using PermitRequest.Domain.Exceptions;
 namespace PermitRequest.Domain.ValueObjets
 {
     public class ReasonExplanation : ValueObject

@@ -1,7 +1,8 @@
 ﻿using Ardalis.Specification;
+using PermitRequest.Domain.DTOs;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
-using PermitRequest.Domain.Extensions;
+using PermitRequest.Domain.Exceptions;
 
 namespace PermitRequest.Application.Factories
 {
@@ -9,23 +10,35 @@ namespace PermitRequest.Application.Factories
     {
         internal interface IWorkflowFactory
         {
-            (Workflow, Guid?) Create();
+            WorkflowFactoryDto Create();
         }
         private class BlueCollarEmployeeAnnualLeaveWorkflowFactory(IEnumerable<AdUser> Users) : IWorkflowFactory
         {
-            (Workflow, Guid?) IWorkflowFactory.Create() => (Workflow.Pending, GetAssignedUserId(Users, "ManagerOfManagerCase"));
+            WorkflowFactoryDto IWorkflowFactory.Create()
+            {
+                return new(Workflow.Pending, GetAssignedUserId(Users, "ManagerOfManagerCase"));
+            }
         }
         private class BlueCollarEmployeeExcusedAbsenceWorkflowFactory(IEnumerable<AdUser> Users) : IWorkflowFactory
         {
-            (Workflow, Guid?) IWorkflowFactory.Create() => (Workflow.Pending, GetAssignedUserId(Users, "ManagerCase"));
+            WorkflowFactoryDto IWorkflowFactory.Create()
+            {
+                return new(Workflow.Pending, GetAssignedUserId(Users, "ManagerCase"));
+            }
         }
         private class ManagerWorkflowFactory() : IWorkflowFactory
         {
-            (Workflow, Guid?) IWorkflowFactory.Create() => (Workflow.None, null);
+            WorkflowFactoryDto IWorkflowFactory.Create()
+            {
+                return new(Workflow.None, null);
+            }
         }
         private class WhiteCollarEmployeeWorkflowFactory(IEnumerable<AdUser> Users) : IWorkflowFactory
         {
-            (Workflow, Guid?) IWorkflowFactory.Create() => (Workflow.Pending, GetAssignedUserId(Users, "EmployeeManagerCase"));
+            WorkflowFactoryDto IWorkflowFactory.Create()
+            {
+                return new(Workflow.Pending, GetAssignedUserId(Users, "EmployeeManagerCase"));
+            }
         }
         private static Guid? GetAssignedUserId(IEnumerable<AdUser> Users, string cases)
         {

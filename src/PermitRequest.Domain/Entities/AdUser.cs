@@ -2,6 +2,7 @@
 using PermitRequest.Domain.Common;
 using PermitRequest.Domain.Enums;
 using PermitRequest.Domain.ValueObjets;
+
 namespace PermitRequest.Domain.Entities
 {
     public class AdUser : BaseEntity, IAggregateRoot

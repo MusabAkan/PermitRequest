@@ -3,14 +3,14 @@ using Ardalis.SharedKernel;
 using AutoMapper;
 using PermissionRequestApp.Domain.Common.Dtos;
 using PermitRequest.Application.Specifications;
-using PermitRequest.Domain.Extensions;
-using PermitRequest.Domain.Services;
+using PermitRequest.Domain.Entities;
+using PermitRequest.Domain.Exceptions;
 
 namespace PermitRequest.Application.Queries
 {
     public record GetListNotificationRequestQuery(int skip, int take) : IQuery<Result<List<NotificationResponseDto>>>;
 
-    public class GetListNotificationRequestQueryHandler(INotificationRepository _repository, IMapper _mapper) : IQueryHandler<GetListNotificationRequestQuery, Result<List<NotificationResponseDto>>>
+    public class GetListNotificationRequestQueryHandler(IRepository<Notification> _repository, IMapper _mapper) : IQueryHandler<GetListNotificationRequestQuery, Result<List<NotificationResponseDto>>>
     {
         public async Task<Result<List<NotificationResponseDto>>> Handle(GetListNotificationRequestQuery request, CancellationToken cancellationToken)
         {

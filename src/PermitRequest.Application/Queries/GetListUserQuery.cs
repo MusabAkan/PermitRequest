@@ -3,14 +3,14 @@ using Ardalis.SharedKernel;
 using AutoMapper;
 using PermitRequest.Application.Specifications;
 using PermitRequest.Domain.DTOs;
-using PermitRequest.Domain.Extensions;
-using PermitRequest.Infrastructure.EntityFramework.Services;
+using PermitRequest.Domain.Entities;
+using PermitRequest.Domain.Exceptions;
 
 namespace PermitRequest.Application.Queries
 {
     public record GetListUserQuery(int skip, int take) : IQuery<Result<List<UserDto>>>;
 
-    public class GetListUserQueryHandler(IAdUserRepository _repository, IMapper _mapper) : IQueryHandler<GetListUserQuery, Result<List<UserDto>>>
+    public class GetListUserQueryHandler(IRepository<AdUser> _repository, IMapper _mapper) : IQueryHandler<GetListUserQuery, Result<List<UserDto>>>
     {
         public async Task<Result<List<UserDto>>> Handle(GetListUserQuery request, CancellationToken cancellationToken)
         {

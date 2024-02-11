@@ -1,21 +1,21 @@
 ﻿using Ardalis.Result;
+using Ardalis.SharedKernel;
 using MediatR;
 using PermitRequest.Application.Specifications;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
-using PermitRequest.Domain.Extensions;
-using PermitRequest.Domain.Services;
-using PermitRequest.Infrastructure.EntityFramework.Services;
+using PermitRequest.Domain.Exceptions;
+
 namespace PermitRequest.Application.Commands
 {
     public record CreateRequestRecordCommand(Guid UserId, DateTime StartDate, DateTime EndDate, LeaveType LeaveType, string Reason) : IRequest<Result<Guid>>;
 
     public class CreateRequestRecordCommandHandler : IRequestHandler<CreateRequestRecordCommand, Result<Guid>>
     {
-        private readonly IAdUserRepository _adUserRepository;
-        private readonly ILeaveRequestRepository _leaveRequestRepository;
+        private readonly IRepository<AdUser> _adUserRepository;
+        private readonly IRepository<LeaveRequest> _leaveRequestRepository;
 
-        public CreateRequestRecordCommandHandler(IAdUserRepository adUserRepository, ILeaveRequestRepository leaveRequestRepository)
+        public CreateRequestRecordCommandHandler(IRepository<AdUser> adUserRepository, IRepository<LeaveRequest> leaveRequestRepository)
         {
             _adUserRepository = adUserRepository;
             _leaveRequestRepository = leaveRequestRepository;

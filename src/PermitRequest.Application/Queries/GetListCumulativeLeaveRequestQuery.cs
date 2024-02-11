@@ -3,15 +3,15 @@ using Ardalis.SharedKernel;
 using AutoMapper;
 using PermitRequest.Application.Specifications;
 using PermitRequest.Domain.DTOs;
+using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Enums;
-using PermitRequest.Domain.Extensions;
-using PermitRequest.Domain.Services;
+using PermitRequest.Domain.Exceptions;
 
 namespace PermitRequest.Application.Queries
 {
     public record GetListCumulativeLeaveRequestQuery(int skip, int take, Guid userId, int? year,LeaveType? leaveType) : IQuery<Result<List<CumulativeResponseDto>>>;  
 
-    public class GetListCumulativeLeaveRequestQueryHandler(ICumulativeLeaveRequestRepository _repository, IMapper _mapper) : IQueryHandler<GetListCumulativeLeaveRequestQuery, Result<List<CumulativeResponseDto>>>
+    public class GetListCumulativeLeaveRequestQueryHandler(IRepository<CumulativeLeaveRequest> _repository, IMapper _mapper) : IQueryHandler<GetListCumulativeLeaveRequestQuery, Result<List<CumulativeResponseDto>>>
     {
         public async Task<Result<List<CumulativeResponseDto>>> Handle(GetListCumulativeLeaveRequestQuery request, CancellationToken cancellationToken)
         {

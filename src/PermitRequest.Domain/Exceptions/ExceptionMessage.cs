@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace PermitRequest.Domain.Extensions
+namespace PermitRequest.Domain.Exceptions
 {
     public class ExceptionMessage : Exception
     {

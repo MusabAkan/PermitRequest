@@ -3,13 +3,13 @@ using Ardalis.SharedKernel;
 using AutoMapper;
 using PermitRequest.Application.Specifications;
 using PermitRequest.Domain.DTOs;
-using PermitRequest.Domain.Extensions;
-using PermitRequest.Domain.Services;
+using PermitRequest.Domain.Entities;
+using PermitRequest.Domain.Exceptions;
 
 namespace PermitRequest.Application.Queries
 {
     public record GetListLeaveRequestQuery(int skip, int take) : IQuery<Result<List<LeaveResponsetDto>>>; 
-    public class GetListLeaveRequestQueryHandler(ILeaveRequestRepository _repository, IMapper _mapper) : IQueryHandler<GetListLeaveRequestQuery, Result<List<LeaveResponsetDto>>>
+    public class GetListLeaveRequestQueryHandler(IRepository<LeaveRequest> _repository, IMapper _mapper) : IQueryHandler<GetListLeaveRequestQuery, Result<List<LeaveResponsetDto>>>
     {
         public async Task<Result<List<LeaveResponsetDto>>> Handle(GetListLeaveRequestQuery request, CancellationToken cancellationToken)
         {

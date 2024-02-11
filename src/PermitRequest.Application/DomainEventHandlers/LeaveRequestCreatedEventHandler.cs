@@ -1,20 +1,18 @@
-﻿using MediatR;
+﻿using Ardalis.SharedKernel;
+using MediatR;
 using PermitRequest.Application.Factories;
 using PermitRequest.Application.Specifications;
 using PermitRequest.Domain.Entities;
 using PermitRequest.Domain.Events;
-using PermitRequest.Domain.Services;
-using PermitRequest.Infrastructure.EntityFramework.Services;
 
 namespace PermitRequest.Application.DomainEventHandlers
 {
     public class LeaveRequestCreatedEventHandler : INotificationHandler<LeaveRequestCreatedEvent>
     {
-
-        private readonly ICumulativeLeaveRequestRepository _cumulativeRepository;
-        private readonly ILeaveRequestRepository _leaveRepository;
-        private readonly IAdUserRepository _userRepository;
-        public LeaveRequestCreatedEventHandler(ICumulativeLeaveRequestRepository cumulativeRepository, ILeaveRequestRepository leaveRepository, IAdUserRepository userRepository)
+        private readonly IRepository<CumulativeLeaveRequest> _cumulativeRepository;
+        private readonly IRepository<LeaveRequest> _leaveRepository;
+        private readonly IRepository<AdUser> _userRepository;
+        public LeaveRequestCreatedEventHandler(IRepository<CumulativeLeaveRequest> cumulativeRepository, IRepository<LeaveRequest> leaveRepository, IRepository<AdUser> userRepository)
         {
             _cumulativeRepository = cumulativeRepository;
             _leaveRepository = leaveRepository;
@@ -30,8 +28,8 @@ namespace PermitRequest.Application.DomainEventHandlers
 
             var resultFactory = WorkflowFactory.Workflows(userEntity.UserType, leaveEntity.LeaveType, userAll).Create();
 
-            leaveEntity.SetWorkflowStatus(resultFactory.Item1);
-            leaveEntity.SetAssignedUserId(resultFactory.Item2);
+            leaveEntity.SetWorkflowStatus(resultFactory.Workflow);
+            leaveEntity.SetAssignedUserId(resultFactory.UserId);
 
             await _leaveRepository.SaveChangesAsync(cancellationToken);
 
