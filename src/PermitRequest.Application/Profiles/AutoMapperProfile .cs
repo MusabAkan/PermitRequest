@@ -32,7 +32,8 @@ namespace PermitRequest.Application.Profiles
 
             CreateMap<AdUser, UserDto>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName.ToString()))
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.UserType, opt => opt.MapFrom(src => src.UserType));
 
             CreateMap<CumulativeLeaveRequest, CumulativeResponseDto>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName.ToString()))
